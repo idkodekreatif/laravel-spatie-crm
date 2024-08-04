@@ -223,8 +223,8 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
 
     <script src="{{ asset('assets/js/soft-ui-dashboard.min%EF%B9%96v=1.1.1.js') }}"></script>
-
-    @stack('JavaScript')
+    <script src="{{ asset('assets/js/plugins/datatables.js') }}"></script>
+    @stack('Script')
 </body>
 
 </html>

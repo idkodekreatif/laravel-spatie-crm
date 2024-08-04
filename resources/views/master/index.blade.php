@@ -395,6 +395,6 @@
         </div>
     </div>
 
-    @push('JavaScript')
+    @push('Script')
     @endpush
 </x-master-layout>
