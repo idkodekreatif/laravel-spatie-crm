@@ -6,6 +6,7 @@ use App\DataTables\Configuration\MenuDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\Configuration\Menu;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class MenuController extends Controller
 {
@@ -14,6 +15,7 @@ class MenuController extends Controller
      */
     public function index(MenuDataTable $menuDataTable)
     {
+        Gate::authorize('read configuration/menu');
         return $menuDataTable->render('page.configuration.menu');
     }
 

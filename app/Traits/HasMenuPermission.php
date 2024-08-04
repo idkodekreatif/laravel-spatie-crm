@@ -20,13 +20,14 @@ trait HasMenuPermission
         }
 
         foreach ($permissions as $value) {
-            // Create a new permission
+            // Create a new permission with a space between the action and the menu URL
             $permission = Permissions::create([
-                'name' => $value . "{$menu->url}"
+                'name' => $value . ' ' . $menu->url
             ]);
 
             // Attach the permission to the menu
             $permission->menus()->attach($menu);
+
             if ($roles) {
                 // Assign a role to the permission if needed
                 $permission->assignRole($roles);

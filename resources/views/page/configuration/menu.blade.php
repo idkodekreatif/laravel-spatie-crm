@@ -12,6 +12,10 @@
             <div class="card">
 
                 <div class="card-header">
+                    @can('create configuration/menu')
+                    <button class="btn btn-primary btn-sm">Tambah</button>
+                    @endcan
+
                     <h5 class="mb-0">Datatable Search</h5>
                     <p class="text-sm mb-0">
                         A lightweight, extendable, dependency-free javascript HTML table plugin.
