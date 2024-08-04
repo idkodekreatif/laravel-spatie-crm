@@ -1,4 +1,4 @@
-<x-master-layout title="Profile">
+<x-master-layout title="Master">
     @push('style')
     @endpush
 

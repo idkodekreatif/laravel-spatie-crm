@@ -14,19 +14,19 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        User::create([
-            'name' => 'writer',
-            'email' => 'writer@kodekreatif.com',
+        $users = ['writer', 'editor', 'administrator', 'ceo', 'user'];
+
+        $default = [
             'email_verified_at' => now(),
             'password' => bcrypt('password'),
             'remember_token' => Str::random(10)
-        ]);
-        User::create([
-            'name' => 'publisher',
-            'email' => 'publisher@kodekreatif.com',
-            'email_verified_at' => now(),
-            'password' => bcrypt('password'),
-            'remember_token' => Str::random(10)
-        ]);
+        ];
+
+        foreach ($users as $value) {
+            User::create([...$default, ...[
+                'name' => $value,
+                'email' => $value . '@kodekreatif.com',
+            ]])->assignRole($value);
+        }
     }
 }
