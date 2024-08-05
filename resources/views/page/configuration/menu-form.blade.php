@@ -58,18 +58,16 @@
                     </div>
                 </div>
 
-                {{-- <div id="main_menu_wrapper" class="col-md-6 "> --}}
-                    <div id="main_menu_wrapper" class="mb-3 d-none">
-                        <label class="mt-4 form-label">Main Menu</label>
-                        <select class="form-control choices-multiple-remove-button" name="main_menu"
-                            id="choices-multiple-remove-button">
-                            @foreach ($mainMenus as $item)
-                            <option value="{{ $item->id }}">{{ $item->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    {{--
-                </div> --}}
+                <div id="main_menu_wrapper" class="mb-3 d-none">
+                    <label class="mt-4 form-label">Main Menu</label>
+                    <select class="form-control choices-multiple-remove-button" name="main_menu"
+                        id="choices-multiple-remove-button">
+                        <option value="">Default</option>
+                        @foreach ($mainMenus as $item)
+                        <option value="{{ $item->id }}">{{ $item->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Close</button>

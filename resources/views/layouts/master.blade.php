@@ -286,26 +286,6 @@
 
     <script src="{{ asset('assets/js/soft-ui-dashboard.min%EF%B9%96v=1.1.1.js') }}"></script>
     <script src="{{ asset('assets/js/plugins/datatables.js') }}"></script>
-    <script src="{{ asset('assets/js/plugins/choices.min.js') }}"></script>
-
-    <script>
-        if (document.getElementById('choices-multiple-remove-button')) {
-            var element = document.getElementById('choices-multiple-remove-button');
-            const example = new Choices(element, {
-                removeItemButton: true
-            });
-        }
-
-        document.addEventListener("DOMContentLoaded", function() {
-            const choiceElements = document.querySelectorAll('.choices-multiple-remove-button');
-            choiceElements.forEach(element => {
-                new Choices(element, {
-                    removeItemButton: true
-                });
-            });
-        });
-
-    </script>
     @stack('Script')
 </body>
 

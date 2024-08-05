@@ -45,91 +45,100 @@
             <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
             <!-- DataTables JS -->
             <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+            <script src="{{ asset('assets/js/plugins/choices.min.js') }}"></script>
             {!! $dataTable->scripts() !!}
 
             <script>
-                $('.add-menu').on('click', function(e) {
-                            e.preventDefault();
+                // Event listener ketika tombol 'add-menu' diklik
+            $('.add-menu').on('click', function(e) {
+            e.preventDefault();
 
-                            $.ajax({
-                                url: this.href,
-                                method: 'get',
+            $.ajax({
+            url: this.href,
+            method: 'get',
 
-                                beforeSend: function(){
-                                    showLoading()
-                                },
-                                complete: function(){
-                                    showLoading(false)
-                                },
+            beforeSend: function() {
+            showLoading()
+            },
+            complete: function() {
+            showLoading(false)
+            },
 
-                                success: function(res) {
-                                    const modal = $('#modal_action')
-                                    modal.html(res)
-                                    modal.modal('show')
+            success: function(res) {
+            const modal = $('#modal_action')
+            modal.html(res)
+            modal.modal('show')
 
-                                    $('[name=level_menu]').on('change', function(){
-                                        const wrapper = $('#main_menu_wrapper');
-                                        if(this.value ==='sub_menu'){
-                                            wrapper.removeClass('d-none')
-                                        } else {
-                                            wrapper.addClass('d-none')
-                                        }
-                                    })
+            // Event listener untuk perubahan level_menu
+            $('[name=level_menu]').on('change', function() {
+            const wrapper = $('#main_menu_wrapper');
+            if (this.value === 'sub_menu') {
+            wrapper.removeClass('d-none')
+            } else {
+            wrapper.addClass('d-none')
+            }
+            })
 
-                                    $('#form_action').on('submit', function(e) {
-                                        e.preventDefault();
-                                        const _form = this;
+            // Inisialisasi Choices.js setelah modal ditampilkan
+            modal.on('shown.bs.modal', function() {
+            const choiceElements = document.querySelectorAll('.choices-multiple-remove-button');
+            choiceElements.forEach(element => {
+            new Choices(element, {
+            removeItemButton: true
+            });
+            });
+            });
 
-                                        $.ajax({
-                                            url: _form.action,
-                                            method: _form.method,
-                                            data: new FormData(_form),
-                                            contentType: false,
-                                            processData: false,
+            $('#form_action').on('submit', function(e) {
+            e.preventDefault();
+            const _form = this;
 
-                                            beforeSend: function(){
-                                                $(_form).find('.is-invalid').removeClass('is-invalid')
-                                                $(_form).find('.invalid-feedback').remove()
-                                                submitLoader().show()
-                                            },
+            $.ajax({
+            url: _form.action,
+            method: _form.method,
+            data: new FormData(_form),
+            contentType: false,
+            processData: false,
 
-                                            success: function(res) {
-                                               $('#modal_action').modal('hide')
-                                               window.LaravelDataTables['menu-table'].ajax.reload()
-                                            },
+            beforeSend: function() {
+            $(_form).find('.is-invalid').removeClass('is-invalid')
+            $(_form).find('.invalid-feedback').remove()
+            submitLoader().show()
+            },
 
-                                            complete: function(){
-                                                submitLoader().hide()
-                                            },
+            success: function(res) {
+            $('#modal_action').modal('hide')
+            window.LaravelDataTables['menu-table'].ajax.reload()
+            },
 
-                                            error: function(err) {
-                                                // Remove previous error messages and invalid classes
-                                                $(_form).find('.is-invalid').removeClass(
-                                                    'is-invalid');
-                                                $(_form).find('.invalid-feedback').remove();
+            complete: function() {
+            submitLoader().hide()
+            },
 
-                                                const errors = err.responseJSON?.errors;
+            error: function(err) {
+            $(_form).find('.is-invalid').removeClass('is-invalid');
+            $(_form).find('.invalid-feedback').remove();
 
-                                                if (errors) {
-                                                    for (let [key, message] of Object.entries(
-                                                            errors)) {
-                                                        console.log(key, message);
-                                                        const input = $(`[name=${key}]`);
-                                                        input.addClass('is-invalid');
-                                                        input.parent().append(
-                                                            `<div class="invalid-feedback">${message}</div>`
-                                                            );
-                                                    }
-                                                }
-                                            }
-                                        });
-                                    });
-                                },
-                                error: function(err) {
-                                    console.log(err);
-                                }
-                            })
-                        })
+            const errors = err.responseJSON?.errors;
+
+            if (errors) {
+            for (let [key, message] of Object.entries(errors)) {
+            console.log(key, message);
+            const input = $(`[name=${key}]`);
+            input.addClass('is-invalid');
+            input.parent().append(`<div class="invalid-feedback">${message}</div>`);
+            }
+            }
+            }
+            });
+            });
+            },
+            error: function(err) {
+            console.log(err);
+            }
+            })
+            });
             </script>
+
             @endpush
 </x-master-layout>
