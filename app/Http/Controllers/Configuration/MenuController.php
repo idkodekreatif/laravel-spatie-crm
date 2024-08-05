@@ -6,6 +6,7 @@ use App\DataTables\Configuration\MenuDataTable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Configuration\MenuRequest;
 use App\Models\Configuration\Menu;
+use App\Models\Spatie\Permissions;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
@@ -25,6 +26,8 @@ class MenuController extends Controller
      */
     public function create(Menu $menu)
     {
+        Gate::authorize('create configuration/menu');
+
         $mainMenus = Menu::whereNull('main_menu_id')->select('id', 'name')->get();
         return view('page.configuration.menu-form', [
             'action' => route('configuration.menu.store'),
@@ -38,6 +41,8 @@ class MenuController extends Controller
      */
     public function store(MenuRequest $request, Menu $menu)
     {
+        Gate::authorize('create configuration/menu');
+
         $menu->fill($request->validated());
         $menu->fill([
             'orders' => $request->orders,
@@ -47,6 +52,10 @@ class MenuController extends Controller
         ]);
 
         $menu->save();
+
+        foreach ($request->permissions as $permission) {
+            Permissions::create(['name' => $permission . " {$menu->url}"])->menus()->attach($menu);
+        }
 
         return response()->json([
             'status' => 'success',

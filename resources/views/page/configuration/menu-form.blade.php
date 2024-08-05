@@ -58,16 +58,36 @@
                     </div>
                 </div>
 
-                <div id="main_menu_wrapper" class="mb-3 d-none">
-                    <label class="mt-4 form-label">Main Menu</label>
-                    <select class="form-control choices-multiple-remove-button" name="main_menu"
-                        id="choices-multiple-remove-button">
-                        <option value="">Default</option>
-                        @foreach ($mainMenus as $item)
-                        <option value="{{ $item->id }}">{{ $item->name }}</option>
-                        @endforeach
-                    </select>
+                <div class="row">
+                    <div class="col-12">
+                        <div id="main_menu_wrapper" class="d-none">
+                            <label class=" form-label">Main Menu</label>
+                            <select class="form-control choices-multiple-remove-button" name="main_menu"
+                                id="choices-multiple-remove-button">
+                                <option value="">Default</option>
+                                @foreach ($mainMenus as $item)
+                                <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
                 </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <label class="form-label">Permission</label>
+                        <div class="mb-3">
+                            @foreach (['create', 'read', 'update', 'delete'] as $item)
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" name="permissions[]" type="checkbox"
+                                    id="inlineCheckbox1{{ $item }}" value="{{ $item }}">
+                                <label class="form-check-label" for="inlineCheckbox1{{ $item }}">{{ $item }}</label>
+                            </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Close</button>
