@@ -25,9 +25,11 @@ class MenuController extends Controller
      */
     public function create(Menu $menu)
     {
+        $mainMenus = Menu::whereNull('main_menu_id')->select('id', 'name')->get();
         return view('page.configuration.menu-form', [
             'action' => route('configuration.menu.store'),
             'data' => $menu,
+            'mainMenus' => $mainMenus,
         ]);
     }
 
@@ -40,6 +42,8 @@ class MenuController extends Controller
         $menu->fill([
             'orders' => $request->orders,
             'icon' => $request->icon,
+            'category' => $request->category,
+            'main_menu_id' => $request->main_menu
         ]);
 
         $menu->save();

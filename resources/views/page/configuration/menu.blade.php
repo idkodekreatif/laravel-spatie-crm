@@ -7,94 +7,129 @@
     <!-- DataTables Responsive CSS (optional, for responsive tables) -->
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.2/css/responsive.dataTables.min.css">
     @endpush
-    <div class="row mt-4">
+
+    <div class="row">
         <div class="col-12">
             <div class="card">
 
-                <div class="card-header">
-                    @can('create configuration/menu')
-                    <a class="btn btn-primary btn-sm add-menu"
-                        href="{{ route('configuration.menu.create') }}">Tambah</a>
-                    @endcan
+                <div class="card-header pb-0">
+                    <div class="d-lg-flex">
+                        <div>
+                            <h5 class="mb-0">All Products</h5>
+                            <p class="text-sm mb-0">
+                                A lightweight, extendable, dependency-free javascript HTML table plugin.
+                            </p>
+                        </div>
+                        <div class="ms-auto my-auto mt-lg-0 mt-4">
+                            <div class="ms-auto my-auto">
+                                <a href="{{ route('configuration.menu.create') }}"
+                                    class="btn bg-gradient-primary btn-sm mb-0 add-menu">+&nbsp; New
+                                    Menu</a>
 
-                    <h5 class="mb-0">Datatable Search</h5>
-                    <p class="text-sm mb-0">
-                        A lightweight, extendable, dependency-free javascript HTML table plugin.
-                    </p>
+                                <button class="btn btn-outline-primary btn-sm export mb-0 mt-sm-0 mt-1" data-type="csv"
+                                    type="button" name="button">Export</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="table-responsive p-3">
-                    {!! $dataTable->table() !!}
+                <div class="card-body px-0 pb-0">
+                    <div class="table-responsive p-5">
+                        {!! $dataTable->table() !!}
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
 
-    @push('Script')
-    <!-- jQuery (necessary for DataTables) -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <!-- DataTables JS -->
-    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-    {!! $dataTable->scripts() !!}
 
-    <script>
-        $('.add-menu').on('click', function(e) {
-                e.preventDefault();
+            @push('Script')
+            <!-- jQuery (necessary for DataTables) -->
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+            <!-- DataTables JS -->
+            <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+            {!! $dataTable->scripts() !!}
 
-                $.ajax({
-                    url: this.href,
-                    method: 'get',
-                    success: function(res) {
-                        const modal = $('#modal_action')
-                        modal.html(res)
-                        modal.modal('show')
-
-                        $('#form_action').on('submit', function(e) {
+            <script>
+                $('.add-menu').on('click', function(e) {
                             e.preventDefault();
-                            const _form = this;
 
                             $.ajax({
-                                url: _form.action,
-                                method: _form.method,
-                                data: new FormData(_form),
-                                contentType: false,
-                                processData: false,
+                                url: this.href,
+                                method: 'get',
 
                                 beforeSend: function(){
-                                    $(_form).find('.is-invalid').removeClass('is-invalid')
-                                    $(_form).find('.invalid-feedback').remove()
+                                    showLoading()
+                                },
+                                complete: function(){
+                                    showLoading(false)
                                 },
 
                                 success: function(res) {
-                                   $('#modal_action').modal('hide')
+                                    const modal = $('#modal_action')
+                                    modal.html(res)
+                                    modal.modal('show')
+
+                                    $('[name=level_menu]').on('change', function(){
+                                        const wrapper = $('#main_menu_wrapper');
+                                        if(this.value ==='sub_menu'){
+                                            wrapper.removeClass('d-none')
+                                        } else {
+                                            wrapper.addClass('d-none')
+                                        }
+                                    })
+
+                                    $('#form_action').on('submit', function(e) {
+                                        e.preventDefault();
+                                        const _form = this;
+
+                                        $.ajax({
+                                            url: _form.action,
+                                            method: _form.method,
+                                            data: new FormData(_form),
+                                            contentType: false,
+                                            processData: false,
+
+                                            beforeSend: function(){
+                                                $(_form).find('.is-invalid').removeClass('is-invalid')
+                                                $(_form).find('.invalid-feedback').remove()
+                                                submitLoader().show()
+                                            },
+
+                                            success: function(res) {
+                                               $('#modal_action').modal('hide')
+                                               window.LaravelDataTables['menu-table'].ajax.reload()
+                                            },
+
+                                            complete: function(){
+                                                submitLoader().hide()
+                                            },
+
+                                            error: function(err) {
+                                                // Remove previous error messages and invalid classes
+                                                $(_form).find('.is-invalid').removeClass(
+                                                    'is-invalid');
+                                                $(_form).find('.invalid-feedback').remove();
+
+                                                const errors = err.responseJSON?.errors;
+
+                                                if (errors) {
+                                                    for (let [key, message] of Object.entries(
+                                                            errors)) {
+                                                        console.log(key, message);
+                                                        const input = $(`[name=${key}]`);
+                                                        input.addClass('is-invalid');
+                                                        input.parent().append(
+                                                            `<div class="invalid-feedback">${message}</div>`
+                                                            );
+                                                    }
+                                                }
+                                            }
+                                        });
+                                    });
                                 },
                                 error: function(err) {
-                                    // Remove previous error messages and invalid classes
-                                    $(_form).find('.is-invalid').removeClass(
-                                        'is-invalid');
-                                    $(_form).find('.invalid-feedback').remove();
-
-                                    const errors = err.responseJSON?.errors;
-
-                                    if (errors) {
-                                        for (let [key, message] of Object.entries(
-                                                errors)) {
-                                            console.log(key, message);
-                                            const input = $(`[name=${key}]`);
-                                            input.addClass('is-invalid');
-                                            input.parent().append(
-                                                `<div class="invalid-feedback">${message}</div>`
-                                                );
-                                        }
-                                    }
+                                    console.log(err);
                                 }
-                            });
-                        });
-                    },
-                    error: function(err) {
-                        console.log(err);
-                    }
-                })
-            })
-    </script>
-    @endpush
+                            })
+                        })
+            </script>
+            @endpush
 </x-master-layout>

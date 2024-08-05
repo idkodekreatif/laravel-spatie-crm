@@ -1,4 +1,4 @@
-<div class="modal-dialog modal-dialog-centered" role="document">
+<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
     <div class="modal-content">
         <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">Create Menu</h5>
@@ -42,9 +42,34 @@
                             placeholder="ordery">
                     </div>
                     <div class="col-6">
-
+                        <label for="level" class="form-label">Level Menu</label>
+                        <div class="">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="level_menu" id="inlineRadio1"
+                                    value="main_menu">
+                                <label class="form-check-label" for="inlineRadio1">Main Menu</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="level_menu" id="inlineRadio2"
+                                    value="sub_menu">
+                                <label class="form-check-label" for="inlineRadio2">Sub menu</label>
+                            </div>
+                        </div>
                     </div>
                 </div>
+
+                {{-- <div id="main_menu_wrapper" class="col-md-6 "> --}}
+                    <div id="main_menu_wrapper" class="mb-3 d-none">
+                        <label class="mt-4 form-label">Main Menu</label>
+                        <select class="form-control choices-multiple-remove-button" name="main_menu"
+                            id="choices-multiple-remove-button">
+                            @foreach ($mainMenus as $item)
+                            <option value="{{ $item->id }}">{{ $item->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    {{--
+                </div> --}}
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Close</button>
