@@ -13,7 +13,8 @@
 
                 <div class="card-header">
                     @can('create configuration/menu')
-                    <button class="btn btn-primary btn-sm">Tambah</button>
+                    <a class="btn btn-primary btn-sm add-menu"
+                        href="{{ route('configuration.menu.create') }}">Tambah</a>
                     @endcan
 
                     <h5 class="mb-0">Datatable Search</h5>
@@ -34,5 +35,66 @@
     <!-- DataTables JS -->
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     {!! $dataTable->scripts() !!}
+
+    <script>
+        $('.add-menu').on('click', function(e) {
+                e.preventDefault();
+
+                $.ajax({
+                    url: this.href,
+                    method: 'get',
+                    success: function(res) {
+                        const modal = $('#modal_action')
+                        modal.html(res)
+                        modal.modal('show')
+
+                        $('#form_action').on('submit', function(e) {
+                            e.preventDefault();
+                            const _form = this;
+
+                            $.ajax({
+                                url: _form.action,
+                                method: _form.method,
+                                data: new FormData(_form),
+                                contentType: false,
+                                processData: false,
+
+                                beforeSend: function(){
+                                    $(_form).find('.is-invalid').removeClass('is-invalid')
+                                    $(_form).find('.invalid-feedback').remove()
+                                },
+
+                                success: function(res) {
+                                   $('#modal_action').modal('hide')
+                                },
+                                error: function(err) {
+                                    // Remove previous error messages and invalid classes
+                                    $(_form).find('.is-invalid').removeClass(
+                                        'is-invalid');
+                                    $(_form).find('.invalid-feedback').remove();
+
+                                    const errors = err.responseJSON?.errors;
+
+                                    if (errors) {
+                                        for (let [key, message] of Object.entries(
+                                                errors)) {
+                                            console.log(key, message);
+                                            const input = $(`[name=${key}]`);
+                                            input.addClass('is-invalid');
+                                            input.parent().append(
+                                                `<div class="invalid-feedback">${message}</div>`
+                                                );
+                                        }
+                                    }
+                                }
+                            });
+                        });
+                    },
+                    error: function(err) {
+                        console.log(err);
+                    }
+                })
+            })
+    </script>
     @endpush
 </x-master-layout>

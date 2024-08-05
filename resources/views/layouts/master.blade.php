@@ -43,6 +43,10 @@
 
         <div class="container-fluid py-4">
             {{-- content --}}
+            <div class="modal fade" id="modal_action" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+            </div>
+
             {{ $slot }}
 
 
