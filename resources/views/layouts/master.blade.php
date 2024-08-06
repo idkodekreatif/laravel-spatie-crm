@@ -85,14 +85,14 @@
 
             if (show) {
                 preloader.css({
-                    opacity: 1
-                    , visibility: "visible"
-                , });
+                    opacity: 1,
+                    visibility: "visible",
+                });
             } else {
                 preloader.css({
-                    opacity: 0
-                    , visibility: "hidden"
-                , });
+                    opacity: 0,
+                    visibility: "hidden",
+                });
             }
         }
 
@@ -113,11 +113,10 @@
             }
 
             return {
-                show
-                , hide
+                show,
+                hide
             }
         }
-
     </script>
 
     <script>
@@ -131,145 +130,144 @@
         gradientStroke1.addColorStop(0, 'rgba(33,82,255,0)'); //purple colors
 
         new Chart(ctx1, {
-            type: "line"
-            , data: {
-                labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
-                , datasets: [{
-                    label: "Tasks"
-                    , tension: 0.3
-                    , pointRadius: 2
-                    , pointBackgroundColor: "#2152ff"
-                    , borderColor: "#2152ff"
-                    , borderWidth: 2
-                    , backgroundColor: gradientStroke1
-                    , data: [40, 45, 42, 41, 40, 43, 40, 42, 39]
-                    , maxBarThickness: 6
-                    , fill: true
-                }]
-            , }
-            , options: {
-                responsive: true
-                , maintainAspectRatio: false
-                , plugins: {
+            type: "line",
+            data: {
+                labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+                datasets: [{
+                    label: "Tasks",
+                    tension: 0.3,
+                    pointRadius: 2,
+                    pointBackgroundColor: "#2152ff",
+                    borderColor: "#2152ff",
+                    borderWidth: 2,
+                    backgroundColor: gradientStroke1,
+                    data: [40, 45, 42, 41, 40, 43, 40, 42, 39],
+                    maxBarThickness: 6,
+                    fill: true
+                }],
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
                     legend: {
-                        display: false
-                    , }
-                }
-                , interaction: {
-                    intersect: false
-                    , mode: 'index'
-                , }
-                , scales: {
+                        display: false,
+                    }
+                },
+                interaction: {
+                    intersect: false,
+                    mode: 'index',
+                },
+                scales: {
                     y: {
                         grid: {
-                            drawBorder: false
-                            , display: false
-                            , drawOnChartArea: false
-                            , drawTicks: false
-                        , }
-                        , ticks: {
+                            drawBorder: false,
+                            display: false,
+                            drawOnChartArea: false,
+                            drawTicks: false,
+                        },
+                        ticks: {
                             display: false
                         }
-                    }
-                    , x: {
+                    },
+                    x: {
                         grid: {
-                            drawBorder: false
-                            , display: false
-                            , drawOnChartArea: false
-                            , drawTicks: false
-                        , }
-                        , ticks: {
-                            color: '#252f40'
-                            , padding: 10
+                            drawBorder: false,
+                            display: false,
+                            drawOnChartArea: false,
+                            drawTicks: false,
+                        },
+                        ticks: {
+                            color: '#252f40',
+                            padding: 10
                         }
-                    }
-                    , y: {
+                    },
+                    y: {
                         grid: {
-                            drawBorder: false
-                            , display: false
-                            , drawOnChartArea: true
-                            , drawTicks: false
-                            , borderDash: [5, 5]
+                            drawBorder: false,
+                            display: false,
+                            drawOnChartArea: true,
+                            drawTicks: false,
+                            borderDash: [5, 5]
+                        },
+                        ticks: {
+                            display: true,
+                            padding: 10,
+                            color: '#9ca2b7'
                         }
-                        , ticks: {
-                            display: true
-                            , padding: 10
-                            , color: '#9ca2b7'
-                        }
-                    }
-                    , x: {
+                    },
+                    x: {
                         grid: {
-                            drawBorder: false
-                            , display: true
-                            , drawOnChartArea: true
-                            , drawTicks: false
-                            , borderDash: [5, 5]
+                            drawBorder: false,
+                            display: true,
+                            drawOnChartArea: true,
+                            drawTicks: false,
+                            borderDash: [5, 5]
+                        },
+                        ticks: {
+                            display: true,
+                            padding: 10,
+                            color: '#9ca2b7'
                         }
-                        , ticks: {
-                            display: true
-                            , padding: 10
-                            , color: '#9ca2b7'
-                        }
-                    }
-                , }
-            , }
-        , });
+                    },
+                },
+            },
+        });
 
         new Chart(ctx2, {
-            type: "doughnut"
-            , data: {
-                labels: ['Done', 'In progress']
-                , datasets: [{
-                    label: "Projects"
-                    , weight: 9
-                    , cutout: 50
-                    , tension: 0.9
-                    , pointRadius: 2
-                    , borderWidth: 2
-                    , backgroundColor: ['#2152ff', '#a8b8d8']
-                    , data: [75, 25]
-                    , fill: false
-                }]
-            , }
-            , options: {
-                responsive: true
-                , maintainAspectRatio: false
-                , plugins: {
+            type: "doughnut",
+            data: {
+                labels: ['Done', 'In progress'],
+                datasets: [{
+                    label: "Projects",
+                    weight: 9,
+                    cutout: 50,
+                    tension: 0.9,
+                    pointRadius: 2,
+                    borderWidth: 2,
+                    backgroundColor: ['#2152ff', '#a8b8d8'],
+                    data: [75, 25],
+                    fill: false
+                }],
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
                     legend: {
-                        display: false
-                    , }
-                }
-                , interaction: {
-                    intersect: false
-                    , mode: 'index'
-                , }
-                , scales: {
+                        display: false,
+                    }
+                },
+                interaction: {
+                    intersect: false,
+                    mode: 'index',
+                },
+                scales: {
                     y: {
                         grid: {
-                            drawBorder: false
-                            , display: false
-                            , drawOnChartArea: false
-                            , drawTicks: false
-                        , }
-                        , ticks: {
+                            drawBorder: false,
+                            display: false,
+                            drawOnChartArea: false,
+                            drawTicks: false,
+                        },
+                        ticks: {
                             display: false
                         }
-                    }
-                    , x: {
+                    },
+                    x: {
                         grid: {
-                            drawBorder: false
-                            , display: false
-                            , drawOnChartArea: false
-                            , drawTicks: false
-                        , }
-                        , ticks: {
-                            display: false
-                        , }
-                    }
-                , }
-            , }
-        , });
-
+                            drawBorder: false,
+                            display: false,
+                            drawOnChartArea: false,
+                            drawTicks: false,
+                        },
+                        ticks: {
+                            display: false,
+                        }
+                    },
+                },
+            },
+        });
     </script>
     <script>
         var win = navigator.platform.indexOf('Win') > -1;
@@ -279,7 +277,144 @@
             }
             Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
         }
+    </script>
 
+    <script>
+        function handleFormSubmit(selector) {
+            let onSuccessCallback;
+            let dataTableId;
+            let runDefaultSuccessCallback = true;
+
+            function init() {
+                $(selector).on('submit', function(e) {
+                    e.preventDefault();
+                    const _form = this;
+
+                    $.ajax({
+                        url: _form.action,
+                        method: _form.method,
+                        data: new FormData(_form),
+                        contentType: false,
+                        processData: false,
+
+                        beforeSend: function() {
+                            $(_form).find('.is-invalid').removeClass('is-invalid');
+                            $(_form).find('.invalid-feedback').remove();
+                            submitLoader().show();
+                        },
+
+                        success: function(res) {
+                            if (runDefaultSuccessCallback) {
+                                $('#modal_action').modal('hide');
+                            }
+
+                            if (onSuccessCallback) onSuccessCallback(res);
+                            if (dataTableId) window.LaravelDataTables[dataTableId].ajax.reload();
+                        },
+
+                        complete: function() {
+                            submitLoader().hide();
+                        },
+
+                        error: function(err) {
+                            $(_form).find('.is-invalid').removeClass('is-invalid');
+                            $(_form).find('.invalid-feedback').remove();
+
+                            const errors = err.responseJSON?.errors;
+
+                            if (errors) {
+                                for (let [key, message] of Object.entries(errors)) {
+                                    console.log(key, message);
+                                    const input = $(`[name=${key}]`);
+                                    input.addClass('is-invalid');
+                                    input.parent().append(
+                                        `<div class="invalid-feedback">${message}</div>`);
+                                }
+                            }
+                        }
+                    });
+                });
+            }
+
+            function onSuccess(cb, runDefault = true) {
+                onSuccessCallback = cb;
+                runDefaultSuccessCallback = runDefault;
+                return this;
+            }
+
+            function setDataTable(id) {
+                dataTableId = id;
+                return this;
+            }
+
+            return {
+                init,
+                onSuccess,
+                setDataTable,
+            };
+        }
+
+        function handleAjax(url, method = 'get') {
+            let onSuccessCallback;
+            let onErrorCallback;
+            let runDefaultSuccessCallback = true;
+
+            function onSuccess(cb, runDefault = true) {
+                onSuccessCallback = cb;
+                runDefaultSuccessCallback = runDefault;
+                return this;
+            }
+
+            function onError(cb) {
+                onErrorCallback = cb;
+                return this;
+            }
+
+            function execute() {
+                $.ajax({
+                    url,
+                    method,
+
+                    beforeSend: function() {
+                        showLoading(true);
+                    },
+                    complete: function() {
+                        showLoading(false);
+                    },
+
+                    success: function(res) {
+                        if (runDefaultSuccessCallback) {
+                            const modal = $('#modal_action');
+                            modal.html(res);
+                            modal.modal('show');
+
+                            // Inisialisasi Choices.js setelah modal ditampilkan
+                            modal.on('shown.bs.modal', function() {
+                                const choiceElements = document.querySelectorAll(
+                                    '.choices-multiple-remove-button');
+                                choiceElements.forEach(element => {
+                                    new Choices(element, {
+                                        removeItemButton: true
+                                    });
+                                });
+                            });
+                        }
+
+                        if (onSuccessCallback) onSuccessCallback(res);
+                    },
+                    error: function(err) {
+                        if (onErrorCallback) onErrorCallback(err);
+                        console.log(err);
+                    }
+                });
+            }
+
+            return {
+                execute,
+                onSuccess,
+                onError
+            };
+        }
     </script>
 
     <script async defer src="https://buttons.github.io/buttons.js"></script>

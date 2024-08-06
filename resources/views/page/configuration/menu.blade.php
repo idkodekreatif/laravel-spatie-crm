@@ -50,95 +50,25 @@
 
             <script>
                 // Event listener ketika tombol 'add-menu' diklik
-            $('.add-menu').on('click', function(e) {
-            e.preventDefault();
+                    $('.add-menu').on('click', function(e) {
+                        e.preventDefault();
 
-            $.ajax({
-            url: this.href,
-            method: 'get',
+                        handleAjax(this.href).onSuccess(function(res) {
+                            // Event listener untuk perubahan level_menu
+                            $('[name=level_menu]').on('change', function() {
+                                const wrapper = $('#main_menu_wrapper');
+                                if (this.value === 'sub_menu') {
+                                    wrapper.removeClass('d-none');
+                                } else {
+                                    wrapper.addClass('d-none');
+                                }
+                            });
 
-            beforeSend: function() {
-            showLoading()
-            },
-            complete: function() {
-            showLoading(false)
-            },
-
-            success: function(res) {
-            const modal = $('#modal_action')
-            modal.html(res)
-            modal.modal('show')
-
-            // Event listener untuk perubahan level_menu
-            $('[name=level_menu]').on('change', function() {
-            const wrapper = $('#main_menu_wrapper');
-            if (this.value === 'sub_menu') {
-            wrapper.removeClass('d-none')
-            } else {
-            wrapper.addClass('d-none')
-            }
-            })
-
-            // Inisialisasi Choices.js setelah modal ditampilkan
-            modal.on('shown.bs.modal', function() {
-            const choiceElements = document.querySelectorAll('.choices-multiple-remove-button');
-            choiceElements.forEach(element => {
-            new Choices(element, {
-            removeItemButton: true
-            });
-            });
-            });
-
-            $('#form_action').on('submit', function(e) {
-            e.preventDefault();
-            const _form = this;
-
-            $.ajax({
-            url: _form.action,
-            method: _form.method,
-            data: new FormData(_form),
-            contentType: false,
-            processData: false,
-
-            beforeSend: function() {
-            $(_form).find('.is-invalid').removeClass('is-invalid')
-            $(_form).find('.invalid-feedback').remove()
-            submitLoader().show()
-            },
-
-            success: function(res) {
-            $('#modal_action').modal('hide')
-            window.LaravelDataTables['menu-table'].ajax.reload()
-            },
-
-            complete: function() {
-            submitLoader().hide()
-            },
-
-            error: function(err) {
-            $(_form).find('.is-invalid').removeClass('is-invalid');
-            $(_form).find('.invalid-feedback').remove();
-
-            const errors = err.responseJSON?.errors;
-
-            if (errors) {
-            for (let [key, message] of Object.entries(errors)) {
-            console.log(key, message);
-            const input = $(`[name=${key}]`);
-            input.addClass('is-invalid');
-            input.parent().append(`<div class="invalid-feedback">${message}</div>`);
-            }
-            }
-            }
-            });
-            });
-            },
-            error: function(err) {
-            console.log(err);
-            }
-            })
-            });
+                            handleFormSubmit('#form_action')
+                                .setDataTable('menu-table')
+                                .init();
+                        }).execute();
+                    });
             </script>
-
             @endpush
 </x-master-layout>
