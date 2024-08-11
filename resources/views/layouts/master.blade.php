@@ -17,7 +17,6 @@
     <link href="{{ asset('assets/css/nucleo-icons.css') }}" rel="stylesheet" />
     <link href="{{ asset('assets/css/nucleo-svg.css') }}" rel="stylesheet" />
 
-    {{-- <script src="https://kit.fontawesome.com/a076d05399.js"></script> --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="{{ asset('assets/css/nucleo-svg.css') }}" rel="stylesheet" />
     <link href="{{ asset('assets/css/loading.css') }}" rel="stylesheet" />
@@ -30,6 +29,8 @@
         }
     </style>
 
+    <!-- iziToast CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/css/iziToast.min.css') }}">
 
     @stack('style')
 </head>
@@ -64,6 +65,7 @@
         </div>
     </main>
 
+    <!-- Core JS Files -->
     <script src="{{ asset('assets/js/core/popper.min.js') }}"></script>
     <script src="{{ asset('assets/js/core/bootstrap.min.js') }}"></script>
     <script src="{{ asset('assets/js/plugins/perfect-scrollbar.min.js') }}"></script>
@@ -72,28 +74,41 @@
     <script src="{{ asset('assets/js/plugins/dragula/dragula.min.js') }}"></script>
     <script src="{{ asset('assets/js/plugins/jkanban/jkanban.js') }}"></script>
     <script src="{{ asset('assets/js/plugins/chartjs.min.js') }}"></script>
-
     <script src="{{ asset('assets/js/plugins/tilt.min.js') }}"></script>
+
+    <!-- iziToast JS -->
+    <script src="{{ asset('assets/js/plugins/iziToast.min.js') }}"></script>
+
     <script>
+        // Loader
         showLoading()
         $(document).ready(function() {
             showLoading(false)
-        })
+        });
 
         function showLoading(show = true) {
             const preloader = $(".preloader");
 
             if (show) {
                 preloader.css({
-                    opacity: 1
-                    , visibility: "visible"
-                , });
+                    opacity: 1,
+                    visibility: "visible",
+                });
             } else {
                 preloader.css({
-                    opacity: 0
-                    , visibility: "hidden"
-                , });
+                    opacity: 0,
+                    visibility: "hidden",
+                });
             }
+        }
+
+        // Function to show iziToast notifications
+        function showToast(status = 'success', message) {
+            iziToast[status]({
+                title: status == 'success' ? 'Success' : 'Error',
+                message: message,
+                position: 'topRight'
+            });
         }
 
         function submitLoader(formId = '#form_action') {
@@ -104,7 +119,8 @@
                     .addClass('btn-load')
                     .attr("disabled", true)
                     .html(
-                        `<span class="d-flex align-items-center"><span class"spinner-border flex-shrink-0"></span><span class="flex-grow-1 ms-2"> Loading...</span></span>`
+                        `<span class="d-flex align-items-center"><span class"spinner-border flex-shrink-0"></span><span
+                        class="flex-grow-1 ms-2"> Loading...</span></span>`
                     );
             }
 
@@ -113,173 +129,148 @@
             }
 
             return {
-                show
-                , hide
+                show,
+                hide
             }
         }
 
-    </script>
+        function handleFormSubmit(selector) {
+            let onSuccessCallback;
+            let dataTableId;
+            let runDefaultSuccessCallback = true;
 
-    <script>
-        var ctx1 = document.getElementById("chart-line").getContext("2d");
-        var ctx2 = document.getElementById("chart-bar").getContext("2d");
+            function init() {
+                $(selector).on('submit', function(e) {
+                    e.preventDefault();
+                    const _form = this;
 
-        var gradientStroke1 = ctx1.createLinearGradient(0, 230, 0, 50);
+                    $.ajax({
+                        url: _form.action,
+                        method: _form.method,
+                        data: new FormData(_form),
+                        contentType: false,
+                        processData: false,
 
-        gradientStroke1.addColorStop(1, 'rgba(33,82,255,0.1)');
-        gradientStroke1.addColorStop(0.2, 'rgba(33,82,255,0.0)');
-        gradientStroke1.addColorStop(0, 'rgba(33,82,255,0)'); //purple colors
+                        beforeSend: function() {
+                            $(_form).find('.is-invalid').removeClass('is-invalid');
+                            $(_form).find('.invalid-feedback').remove();
+                            submitLoader().show();
+                        },
 
-        new Chart(ctx1, {
-            type: "line"
-            , data: {
-                labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
-                , datasets: [{
-                    label: "Tasks"
-                    , tension: 0.3
-                    , pointRadius: 2
-                    , pointBackgroundColor: "#2152ff"
-                    , borderColor: "#2152ff"
-                    , borderWidth: 2
-                    , backgroundColor: gradientStroke1
-                    , data: [40, 45, 42, 41, 40, 43, 40, 42, 39]
-                    , maxBarThickness: 6
-                    , fill: true
-                }]
-            , }
-            , options: {
-                responsive: true
-                , maintainAspectRatio: false
-                , plugins: {
-                    legend: {
-                        display: false
-                    , }
-                }
-                , interaction: {
-                    intersect: false
-                    , mode: 'index'
-                , }
-                , scales: {
-                    y: {
-                        grid: {
-                            drawBorder: false
-                            , display: false
-                            , drawOnChartArea: false
-                            , drawTicks: false
-                        , }
-                        , ticks: {
-                            display: false
-                        }
-                    }
-                    , x: {
-                        grid: {
-                            drawBorder: false
-                            , display: false
-                            , drawOnChartArea: false
-                            , drawTicks: false
-                        , }
-                        , ticks: {
-                            color: '#252f40'
-                            , padding: 10
-                        }
-                    }
-                    , y: {
-                        grid: {
-                            drawBorder: false
-                            , display: false
-                            , drawOnChartArea: true
-                            , drawTicks: false
-                            , borderDash: [5, 5]
-                        }
-                        , ticks: {
-                            display: true
-                            , padding: 10
-                            , color: '#9ca2b7'
-                        }
-                    }
-                    , x: {
-                        grid: {
-                            drawBorder: false
-                            , display: true
-                            , drawOnChartArea: true
-                            , drawTicks: false
-                            , borderDash: [5, 5]
-                        }
-                        , ticks: {
-                            display: true
-                            , padding: 10
-                            , color: '#9ca2b7'
-                        }
-                    }
-                , }
-            , }
-        , });
+                        success: function(res) {
+                            if (runDefaultSuccessCallback) {
+                                $('#modal_action').modal('hide');
+                                showToast(res.status, res.message)
+                            }
 
-        new Chart(ctx2, {
-            type: "doughnut"
-            , data: {
-                labels: ['Done', 'In progress']
-                , datasets: [{
-                    label: "Projects"
-                    , weight: 9
-                    , cutout: 50
-                    , tension: 0.9
-                    , pointRadius: 2
-                    , borderWidth: 2
-                    , backgroundColor: ['#2152ff', '#a8b8d8']
-                    , data: [75, 25]
-                    , fill: false
-                }]
-            , }
-            , options: {
-                responsive: true
-                , maintainAspectRatio: false
-                , plugins: {
-                    legend: {
-                        display: false
-                    , }
-                }
-                , interaction: {
-                    intersect: false
-                    , mode: 'index'
-                , }
-                , scales: {
-                    y: {
-                        grid: {
-                            drawBorder: false
-                            , display: false
-                            , drawOnChartArea: false
-                            , drawTicks: false
-                        , }
-                        , ticks: {
-                            display: false
-                        }
-                    }
-                    , x: {
-                        grid: {
-                            drawBorder: false
-                            , display: false
-                            , drawOnChartArea: false
-                            , drawTicks: false
-                        , }
-                        , ticks: {
-                            display: false
-                        , }
-                    }
-                , }
-            , }
-        , });
+                            if (onSuccessCallback) onSuccessCallback(res);
+                            if (dataTableId) window.LaravelDataTables[dataTableId].ajax.reload();
+                        },
 
-    </script>
-    <script>
-        var win = navigator.platform.indexOf('Win') > -1;
-        if (win && document.querySelector('#sidenav-scrollbar')) {
-            var options = {
-                damping: '0.5'
+                        complete: function() {
+                            submitLoader().hide();
+                        },
+
+                        error: function(err) {
+                            $(_form).find('.is-invalid').removeClass('is-invalid');
+                            $(_form).find('.invalid-feedback').remove();
+
+                            const errors = err.responseJSON?.errors;
+
+                            if (errors) {
+                                for (let [key, message] of Object.entries(errors)) {
+
+                                    const input = $(`[name=${key}]`);
+                                    input.addClass('is-invalid');
+                                    input.parent().append(
+                                        `<div class="invalid-feedback">${message}</div>`);
+                                }
+                            }
+
+                            showToast('error', err.responseJSON?.message)
+                        }
+                    });
+                });
             }
-            Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+
+            function onSuccess(cb, runDefault = true) {
+                onSuccessCallback = cb;
+                runDefaultSuccessCallback = runDefault;
+                return this;
+            }
+
+            function setDataTable(id) {
+                dataTableId = id;
+                return this;
+            }
+
+            return {
+                init,
+                onSuccess,
+                setDataTable,
+            };
         }
 
+        function handleAjax(url, method = 'get') {
+            let onSuccessCallback;
+            let onErrorCallback;
+            let runDefaultSuccessCallback = true;
+
+            function onSuccess(cb, runDefault = true) {
+                onSuccessCallback = cb;
+                runDefaultSuccessCallback = runDefault;
+                return this;
+            }
+
+            function onError(cb) {
+                onErrorCallback = cb;
+                return this;
+            }
+
+            function execute() {
+                $.ajax({
+                    url,
+                    method,
+
+                    beforeSend: function() {
+                        showLoading(true);
+                    },
+                    complete: function() {
+                        showLoading(false);
+                    },
+
+                    success: function(res) {
+                        if (runDefaultSuccessCallback) {
+                            const modal = $('#modal_action');
+                            modal.html(res);
+                            modal.modal('show');
+
+                            // Initialize Choices.js after modal is shown
+                            modal.on('shown.bs.modal', function() {
+                                const choiceElements = document.querySelectorAll(
+                                    '.choices-multiple-remove-button');
+                                choiceElements.forEach(element => {
+                                    new Choices(element, {
+                                        removeItemButton: true
+                                    });
+                                });
+                            });
+                        }
+
+                        if (onSuccessCallback) onSuccessCallback(res);
+                    },
+                    error: function(err) {
+                        if (onErrorCallback) onErrorCallback(err);
+                    }
+                });
+            }
+
+            return {
+                execute,
+                onSuccess,
+                onError
+            };
+        }
     </script>
 
     <script async defer src="https://buttons.github.io/buttons.js"></script>

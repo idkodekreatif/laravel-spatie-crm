@@ -21,8 +21,17 @@ class MenuDataTable extends DataTable
      */
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
+        $user = request()->user();
+
         return (new EloquentDataTable($query))
-            ->addColumn('action', 'menu.action')
+            ->addColumn('action', function ($row) use ($user) {
+                $actions = [];
+                if ($user->can('update configuration/menu')) {
+                    $actions['<i class="fas fa-user-edit text-secondary"></i> Edit'] = route('configuration.menu.edit', $row->id);
+                }
+
+                return view('page.action.action', compact('actions'));
+            })
             ->setRowId('id');
     }
 

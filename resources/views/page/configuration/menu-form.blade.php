@@ -8,6 +8,11 @@
         </div>
         <form action="{{ $action }}" method="post" id="form_action">
             @csrf
+
+            @if ($data->id)
+            @method('put')
+            @endif
+
             <div class="modal-body">
                 <div class="row">
                     <div class="col-6">
@@ -45,13 +50,16 @@
                         <label for="level" class="form-label">Level Menu</label>
                         <div class="">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="level_menu" id="inlineRadio1"
-                                    value="main_menu">
+                                <input class="form-check-input" {{ !$data->main_menu_id ? 'checked' : ''}} type="radio"
+                                name="level_menu"
+                                id="inlineRadio1"
+                                value="main_menu">
                                 <label class="form-check-label" for="inlineRadio1">Main Menu</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="level_menu" id="inlineRadio2"
-                                    value="sub_menu">
+                                <input class="form-check-input" {{ $data->main_menu_id ? 'checked' : ''}} type="radio"
+                                name="level_menu" id="inlineRadio2"
+                                value="sub_menu">
                                 <label class="form-check-label" for="inlineRadio2">Sub menu</label>
                             </div>
                         </div>
@@ -60,13 +68,14 @@
 
                 <div class="row">
                     <div class="col-12">
-                        <div id="main_menu_wrapper" class="d-none">
+                        <div id="main_menu_wrapper" class="{{ !$data->main_menu_id ? 'd-none' : ''}}">
                             <label class=" form-label">Main Menu</label>
                             <select class="form-control choices-multiple-remove-button" name="main_menu"
                                 id="choices-multiple-remove-button">
                                 <option value="">Default</option>
                                 @foreach ($mainMenus as $item)
-                                <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                <option value="{{ $item->id }}" @selected($data->main_menu_id == $item->id)>{{
+                                    $item->name }}</option>
                                 @endforeach
                             </select>
                         </div>
