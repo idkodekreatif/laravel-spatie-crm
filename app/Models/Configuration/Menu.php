@@ -20,4 +20,9 @@ class Menu extends Model
     {
         return $this->belongsToMany(Permissions::class, 'menu_permission', 'menu_id', 'permissions_id');
     }
+
+    public function scopeActive($query)
+    {
+        return $query->where('active', 1);
+    }
 }
