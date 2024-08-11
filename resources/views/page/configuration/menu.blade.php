@@ -49,26 +49,45 @@
             {!! $dataTable->scripts() !!}
 
             <script>
-                // Event listener ketika tombol 'add-menu' diklik
+                function handleMenuChange() {
+                    // Event listener for level_menu changes
+                    $('[name=level_menu]').on('change', function() {
+                        const wrapper = $('#main_menu_wrapper');
+                        if (this.value === 'sub_menu') {
+                            wrapper.removeClass('d-none');
+                        } else {
+                            wrapper.addClass('d-none');
+                        }
+                    });
+                }
+
+                $(document).ready(function() {
+                    // Initialize menu change handling
+                    handleMenuChange();
+
+                    // Event listener for 'add-menu' button click
                     $('.add-menu').on('click', function(e) {
                         e.preventDefault();
-
                         handleAjax(this.href).onSuccess(function(res) {
-                            // Event listener untuk perubahan level_menu
-                            $('[name=level_menu]').on('change', function() {
-                                const wrapper = $('#main_menu_wrapper');
-                                if (this.value === 'sub_menu') {
-                                    wrapper.removeClass('d-none');
-                                } else {
-                                    wrapper.addClass('d-none');
-                                }
-                            });
-
+                            handleMenuChange();
                             handleFormSubmit('#form_action')
                                 .setDataTable('menu-table')
                                 .init();
                         }).execute();
                     });
+
+                    // Event listener for actions on the menu table
+                    $('#menu-table').on('click', '.action', function(e) {
+                        e.preventDefault();
+                        handleAjax(this.href).onSuccess(function(res) {
+                            handleMenuChange();
+                            handleFormSubmit('#form_action')
+                                .setDataTable('menu-table')
+                                .init();
+                        }).execute();
+                    });
+                });
+
             </script>
             @endpush
 </x-master-layout>
