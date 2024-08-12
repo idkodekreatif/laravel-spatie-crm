@@ -46,9 +46,11 @@
                 </a>
             </li>
             @foreach (menus() as $category => $menus)
-            <li class="nav-item mt-3">
-                <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">{{ $category }}</h6>
-            </li>
+
+            @php
+            $showCategory = true;
+            @endphp
+
             @foreach ($menus as $mm)
             @php
             // Sanitize the name to use as ID
@@ -57,7 +59,19 @@
             // Determine if the current route is the active one
             $isActive = request()->is($mm->url) || request()->is($mm->url . '/*');
             @endphp
+            @can('read '. $mm->url)
+
+            @if ($showCategory)
+            <li class="nav-item mt-3">
+                <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">{{ $category }}</h6>
+            </li>
+
+            @php
+            $showCategory = false;
+            @endphp
+            @endif
             <li class="nav-item">
+
                 @if (count($mm->subMenus))
                 <a data-bs-toggle="collapse" href="#{{ $mmId }}" class="nav-link {{ $isActive ? 'active' : '' }}"
                     aria-controls="{{ $mmId }}" role="button" aria-expanded="{{ $isActive ? 'true' : 'false' }}">
@@ -88,18 +102,21 @@
                 <div class="collapse {{ $isActive ? 'show' : '' }}" id="{{ $mmId }}">
                     <ul class="nav ms-4 ps-3">
                         @foreach ($mm->subMenus as $sm)
+                        @can('read '. $sm->url)
                         <li class="nav-item">
-                            <a class="nav-link {{ request()->is($sm->url) ? 'active' : '' }}" href="{{ $sm->url }}">
+                            <a class="nav-link {{ request()->is($sm->url) ? 'active' : '' }}"
+                                href="{{ url($sm->url) }}">
                                 <span class="sidenav-mini-icon"> P </span>
                                 <span class="sidenav-normal"> {{ $sm->name }} </span>
                             </a>
                         </li>
+                        @endcan
                         @endforeach
                     </ul>
                 </div>
                 @else
-                <a href="{{ $mmId }}" class="nav-link {{ $isActive ? 'active' : '' }}" aria-controls="{{ $mmId }}"
-                    role="button" aria-expanded="{{ $isActive ? 'true' : 'false' }}">
+                <a href="{{ url($mm->url) }}" class="nav-link {{ $isActive ? 'active' : '' }}"
+                    aria-controls="{{ $mmId }}" role="button" aria-expanded="{{ $isActive ? 'true' : 'false' }}">
                     <div
                         class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center d-flex align-items-center justify-content-center me-2">
                         <svg width="12px" height="12px" viewBox="0 0 42 42" version="1.1"
@@ -126,6 +143,7 @@
                 @endif
 
             </li>
+            @endcan
             @endforeach
             @endforeach
         </ul>
