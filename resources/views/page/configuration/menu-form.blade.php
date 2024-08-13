@@ -5,31 +5,37 @@
 
     <div class="row">
         <div class="col-6">
-            <x-form-components.input name="name" value="{{ $data->name }}" label="Name" />
+            <x-form-components.input name="name" value="{{ $data->name }}" label="Name" placeholder="Name" />
         </div>
         <div class="col-6">
-            <label for="icon" class="form-label">icon</label>
+            <x-form-components.input name="icon" value="{{ $data->icon }}" label="Icon" placeholder="fas fa-icon" />
+            {{-- <label for="icon" class="form-label">icon</label>
             <input type="text" name="icon" value="{{ $data->icon }}" class="form-control" id="icon" placeholder="icon">
+            --}}
         </div>
     </div>
 
     <div class="row">
         <div class="col-6">
-            <label for="category" class="form-label">category</label>
+            <x-form-components.input name="category" value="{{ $data->category }}" label="Category"
+                placeholder="Category" />
+            {{-- <label for="category" class="form-label">category</label>
             <input type="text" name="category" value="{{ $data->category }}" class="form-control" id="category"
-                placeholder="category">
+                placeholder="category"> --}}
         </div>
         <div class="col-6">
-            <label for="url" class="form-label">url</label>
-            <input type="text" name="url" value="{{ $data->url }}" class="form-control" id="url" placeholder="url">
+            <x-form-components.input name="url" value="{{ $data->url }}" label="Url" placeholder="Url" />
+            {{-- <label for="url" class="form-label">url</label>
+            <input type="text" name="url" value="{{ $data->url }}" class="form-control" id="url" placeholder="url"> --}}
         </div>
     </div>
 
     <div class="row">
         <div class="col-6">
-            <label for="ordery" class="form-label">orders</label>
+            <x-form-components.input name="orders" value="{{ $data->orders }}" label="Orders" placeholder="Orders" />
+            {{-- <label for="ordery" class="form-label">orders</label>
             <input type="text" name="orders" value="{{ $data->orders }}" class="form-control" id="ordery"
-                placeholder="ordery">
+                placeholder="ordery"> --}}
         </div>
         <div class="col-6">
             <x-form-components.radio inline="true" name="level_menu" label="Level Menu"
