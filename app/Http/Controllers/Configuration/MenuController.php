@@ -50,7 +50,7 @@ class MenuController extends Controller
             'orders' => $request->orders,
             'icon' => $request->icon,
             'category' => $request->category,
-            'main_menu_id' => $request->main_menu
+            'main_menu_id' => $request->main_menu, // Ensure this line is correct
         ]);
     }
 

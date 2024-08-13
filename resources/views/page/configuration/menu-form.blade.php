@@ -63,16 +63,9 @@
 
     <div class="row">
         <div class="col-12">
-            <div id="main_menu_wrapper" class="{{ !$data->main_menu_id ? 'd-none' : ''}}">
-                <label class=" form-label">Main Menu</label>
-                <select class="form-control choices-multiple-remove-button" name="main_menu"
-                    id="choices-multiple-remove-button">
-                    <option value="">Default</option>
-                    @foreach ($mainMenus as $item)
-                    <option value="{{ $item->id }}" @selected($data->main_menu_id == $item->id)>{{
-                        $item->name }}</option>
-                    @endforeach
-                </select>
+            <div id="main_menu_wrapper" class="{{ !$data->main_menu_id ? 'd-none' : '' }}">
+                <x-form-components.select name="main_menu" value="{{ $data->main_menu_id }}" label="Main Menu"
+                    placeholder="Pilih Main Menu" :options="$mainMenus" />
             </div>
         </div>
     </div>
