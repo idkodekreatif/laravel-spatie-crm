@@ -71,17 +71,21 @@
     </div>
 
     <div class="row">
+        @if (!$data->id)
         <div class="col-12">
             <label class="form-label">Permission</label>
             <div class="mb-3">
                 @foreach (['create', 'read', 'update', 'delete'] as $item)
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" name="permissions[]" type="checkbox" id="inlineCheckbox1{{ $item }}"
-                        value="{{ $item }}">
-                    <label class="form-check-label" for="inlineCheckbox1{{ $item }}">{{ $item }}</label>
+                    <x-form-components.checkbox name="permissions[]" id="{{ $item }}_permissions" value="{{ $item }}"
+                        label="{{ $item }}" />
+                    {{-- <input class="form-check-input" name="permissions[]" type="checkbox"
+                        id="inlineCheckbox1{{ $item }}" value="{{ $item }}">
+                    <label class="form-check-label" for="inlineCheckbox1{{ $item }}">{{ $item }}</label> --}}
                 </div>
                 @endforeach
             </div>
         </div>
+        @endif
     </div>
 </x-form-components.modal>
