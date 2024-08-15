@@ -1,5 +1,8 @@
 <?php
 
+use App\Models\Configuration\Menu;
+use Illuminate\Support\Facades\Cache;
+
 if (!function_exists('responseError')) {
     function responseError(Exception | string $th)
     {
@@ -29,5 +32,28 @@ if (!function_exists('responseSuccess')) {
             'status' => 'success',
             'message' => $isEdit ? 'Update data successfully' : 'Create data successfully',
         ]);
+    }
+}
+
+
+if (!function_exists('menus')) {
+    function menus()
+    {
+        if (!Cache::has('menus')) {
+            $menus = Menu::with(['subMenus' => function ($query) {
+                return $query->orderBy('orders');
+            }])
+                ->whereNull('main_menu_id')
+                ->active()
+                ->orderBy('orders')
+                ->get()
+                ->groupBy('category');
+
+            Cache::forever('menus', $menus);
+        } else {
+            $menus = Cache::get('menus');
+        }
+
+        return $menus;
     }
 }
