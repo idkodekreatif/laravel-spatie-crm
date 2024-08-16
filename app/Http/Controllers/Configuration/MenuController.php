@@ -9,8 +9,10 @@ use App\Models\Configuration\Menu;
 use App\Models\Spatie\Permissions;
 use App\Repositories\MenuRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
+use Mavinoo\Batch\BatchFacade;
 
 class MenuController extends Controller
 {
@@ -26,6 +28,27 @@ class MenuController extends Controller
     {
         Gate::authorize('read configuration/menu');
         return $menuDataTable->render('page.configuration.menu');
+    }
+
+    public function sort()
+    {
+        $menus = $this->repository->getMenus();
+
+        $data = [];
+        $i = 0;
+        foreach ($menus as $mm) {
+            $i++;
+            $data[] = ['id' => $mm->id, 'orders' => $i];
+            foreach ($mm->subMenus as $sm) {
+                $i++;
+                $data[] = ['id' => $sm->id, 'orders' => $i];
+            }
+        }
+
+        Cache::forget('menus');
+
+        BatchFacade::update(new Menu(), $data, 'id');
+        responseSuccess(true);
     }
 
     /**

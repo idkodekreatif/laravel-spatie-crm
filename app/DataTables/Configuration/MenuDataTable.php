@@ -72,6 +72,7 @@ class MenuDataTable extends DataTable
     {
         return [
             Column::make('name'),
+            Column::make('orders'),
             Column::make('url'),
             Column::make('category'),
             Column::computed('action')

@@ -20,9 +20,18 @@
                             </p>
                         </div>
                         <div class="ms-auto mt-lg-0 mt-4">
+                            @can('create configuration/menu')
                             <a href="{{ route('configuration.menu.create') }}"
                                 class="btn bg-gradient-primary btn-sm mb-0 add-menu">+&nbsp; New
                                 Menu</a>
+                            @endcan
+
+                            @can('sort configuration/menu')
+                            <a href="{{ route('configuration.menu.sort') }}"
+                                class="btn bg-gradient-primary btn-sm mb-0 add-menu sort">+&nbsp; Sort
+                                Menu</a>
+                            @endcan
+
                             <button class="btn btn-outline-primary btn-sm export mb-0 mt-sm-0 mt-1" data-type="csv"
                                 type="button" name="button">Export</button>
                         </div>
@@ -59,6 +68,16 @@
                 }
             });
         }
+
+        $('.sort').on('click', function(e){
+            e.preventDefault()
+
+            handleAjax(this.href, 'put')
+            .onSuccess(function(res){
+                window.location.reload()
+            }, false)
+            .execute()
+        })
 
         // Document ready function to initialize event listeners
         $(document).ready(function () {

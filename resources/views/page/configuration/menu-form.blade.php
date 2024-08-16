@@ -1,4 +1,4 @@
-<x-form-components.modal title="Form Modal">
+<x-form-components.modal title="Form Modal" action="{{ $action }}">
     @if ($data->id)
     @method('put')
     @endif
