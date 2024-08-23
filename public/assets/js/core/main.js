@@ -5,9 +5,6 @@ $.ajaxSetup({
     },
 });
 
-// Log CSRF Token to the console for verification
-console.log("CSRF Token:", $('meta[name="csrf-token"]').attr("content"));
-
 // Loader
 showLoading();
 $(document).ready(function () {

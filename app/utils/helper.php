@@ -51,3 +51,13 @@ if (!function_exists('menus')) {
         return $menus;
     }
 }
+
+if (!function_exists('user')) {
+    function user($id = null)
+    {
+        if ($id) {
+            return request()->user()->{$id};
+        }
+        return request()->user();
+    }
+}

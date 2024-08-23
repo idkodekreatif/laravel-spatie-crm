@@ -44,6 +44,14 @@ class MenuSeeder extends Seeder
         $this->attachMenuPermission($sm, ['create', 'read', 'update', 'delete', 'sort'], ['ceo']);
 
         $sm = $mm->subMenus()->create([
+            'name' => 'Role',
+            'url' => $mm->url . '/roles',
+            'category' => $mm->category,
+        ]);
+
+        $this->attachMenuPermission($sm, ['create', 'read', 'update', 'delete', 'sort'], ['ceo']);
+
+        $sm = $mm->subMenus()->create([
             'name' => 'User',
             'url' => $mm->url . '/users',
             'category' => $mm->category,
