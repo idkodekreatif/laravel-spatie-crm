@@ -25,15 +25,21 @@ class RoleController extends Controller
      */
     public function create()
     {
-        //
+        return view('page.configuration.role-form', [
+            'data' => new Role(),
+            'action' => route('configuration.roles.store'),
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(RoleRequest $request)
     {
-        //
+        $role = new Role($request->validated());
+        $role->save();
+
+        return responseSuccess(true);
     }
 
     /**
@@ -41,7 +47,9 @@ class RoleController extends Controller
      */
     public function show(Role $role)
     {
-        //
+        return view('page.configuration.role-form', [
+            'data' => $role,
+        ]);
     }
 
     /**
@@ -71,6 +79,8 @@ class RoleController extends Controller
      */
     public function destroy(Role $role)
     {
-        //
+        $role->delete();
+
+        return responseSuccessDelete();
     }
 }

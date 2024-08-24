@@ -20,8 +20,8 @@
                             </p>
                         </div>
                         <div class="ms-auto mt-lg-0 mt-4">
-                            @can('create configuration/role')
-                            <a href="{{ route('configuration.role.create') }}"
+                            @can('create configuration/roles')
+                            <a href="{{ route('configuration.roles.create') }}"
                                 class="btn bg-gradient-primary btn-sm mb-0 add-menu">+&nbsp; New
                                 Role</a>
                             @endcan
@@ -78,6 +78,17 @@
                         .setDataTable(datatable)
                         .init();
                 }).execute();
+            });
+            // Event listener for actions on the menu table
+            $('#' + datatable).on('click', '.delete', function(e) {
+                e.preventDefault();
+                // const url = this.href;
+
+                // handleAjax(url).onSuccess(function(res) {
+                //     handleFormSubmit('#form_action')
+                //         .setDataTable(datatable)
+                //         .init();
+                // }).execute();
             });
         });
 

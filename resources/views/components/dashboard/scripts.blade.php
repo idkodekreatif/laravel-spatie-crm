@@ -17,4 +17,5 @@
 
 <script src="{{ asset('assets/js/soft-ui-dashboard.min%EF%B9%96v=1.1.1.js') }}"></script>
 <script src="{{ asset('assets/js/plugins/datatables.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 @stack('Script')
