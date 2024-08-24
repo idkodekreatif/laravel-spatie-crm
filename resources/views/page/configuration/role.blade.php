@@ -82,13 +82,22 @@
             // Event listener for actions on the menu table
             $('#' + datatable).on('click', '.delete', function(e) {
                 e.preventDefault();
-                // const url = this.href;
-
-                // handleAjax(url).onSuccess(function(res) {
-                //     handleFormSubmit('#form_action')
-                //         .setDataTable(datatable)
-                //         .init();
-                // }).execute();
+               Swal.fire({
+                    title: "Are you sure?",
+                    text: "You won't be able to revert this!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes, delete it!"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        handleAjax(this.href, 'delete').onSuccess(function(res) {
+                        showToast(res.status, res.message)
+                        window.LaravelDataTables[datatable].ajax.reload()
+                        }, false).execute();
+                    }
+                });
             });
         });
 
