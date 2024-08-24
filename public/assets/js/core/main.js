@@ -28,6 +28,26 @@ $(document).ready(function () {
     });
 });
 
+function handleAction(datatable, onShowAction, OnSuccessAction) {
+    // Event listener for actions on the menu table
+    $(".main-content").on("click", ".action", function (e) {
+        e.preventDefault();
+        const url = this.href;
+
+        handleAjax(url)
+            .onSuccess(function (res) {
+                onShowAction && onShowAction(res);
+                handleFormSubmit("#form_action")
+                    .setDataTable(datatable)
+                    .onSuccess(function (res) {
+                        OnSuccessAction && OnSuccessAction(res);
+                    })
+                    .init();
+            })
+            .execute();
+    });
+}
+
 function showLoading(show = true) {
     const preloader = $(".preloader");
 

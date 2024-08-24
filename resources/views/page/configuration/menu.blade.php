@@ -22,13 +22,13 @@
                         <div class="ms-auto mt-lg-0 mt-4">
                             @can('create configuration/menu')
                             <a href="{{ route('configuration.menu.create') }}"
-                                class="btn bg-gradient-primary btn-sm mb-0 add-menu">+&nbsp; New
+                                class="btn bg-gradient-primary btn-sm mb-0 action">+&nbsp; New
                                 Menu</a>
                             @endcan
 
                             @can('sort configuration/menu')
                             <a href="{{ route('configuration.menu.sort') }}"
-                                class="btn bg-gradient-primary btn-sm mb-0 add-menu sort">+&nbsp; Sort
+                                class="btn bg-gradient-primary btn-sm mb-0 action sort">+&nbsp; Sort
                                 Menu</a>
                             @endcan
 
@@ -57,6 +57,8 @@
     {!! $dataTable->scripts() !!}
 
     <script>
+        const datatable = 'menu-table';
+
         // Function to handle visibility of main menu based on selected level
         function handleMenuChange() {
             const wrapper = $('#main_menu_wrapper');
@@ -84,31 +86,9 @@
             // Initialize menu change handling
             handleMenuChange();
 
-            // Event listener for 'add-menu' button click
-            $('.add-menu').on('click', function (e) {
-                e.preventDefault();
-                const url = this.href;
-
-                handleAjax(url).onSuccess(function (res) {
-                    handleMenuChange();
-                    handleFormSubmit('#form_action')
-                        .setDataTable('menu-table')
-                        .init();
-                }).execute();
-            });
-
-            // Event listener for actions on the menu table
-            $('#menu-table').on('click', '.action', function (e) {
-                e.preventDefault();
-                const url = this.href;
-
-                handleAjax(url).onSuccess(function (res) {
-                    handleMenuChange();
-                    handleFormSubmit('#form_action')
-                        .setDataTable('menu-table')
-                        .init();
-                }).execute();
-            });
+            handleAction(datatable, function(){
+                handleMenuChange()
+            })
         });
     </script>
     @endpush

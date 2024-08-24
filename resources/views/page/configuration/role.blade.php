@@ -10,7 +10,7 @@
 
     <div class="row">
         <div class="col-12">
-            <div class="card">
+            <div class="card main-content">
                 <div class="card-header pb-0">
                     <div class="d-lg-flex justify-content-between">
                         <div>
@@ -22,7 +22,7 @@
                         <div class="ms-auto mt-lg-0 mt-4">
                             @can('create configuration/roles')
                             <a href="{{ route('configuration.roles.create') }}"
-                                class="btn bg-gradient-primary btn-sm mb-0 add-menu">+&nbsp; New
+                                class="btn bg-gradient-primary btn-sm mb-0 action">+&nbsp; New
                                 Role</a>
                             @endcan
 
@@ -56,29 +56,8 @@
         // Document ready function to initialize event listeners
         $(document).ready(function() {
 
-            // Event listener for 'add-menu' button click
-            $('.add-menu').on('click', function(e) {
-                e.preventDefault();
-                const url = this.href;
+            handleAction(datatable)
 
-                handleAjax(url).onSuccess(function(res) {
-                    handleFormSubmit('#form_action')
-                        .setDataTable(datatable)
-                        .init();
-                }).execute();
-            });
-
-            // Event listener for actions on the menu table
-            $('#' + datatable).on('click', '.action', function(e) {
-                e.preventDefault();
-                const url = this.href;
-
-                handleAjax(url).onSuccess(function(res) {
-                    handleFormSubmit('#form_action')
-                        .setDataTable(datatable)
-                        .init();
-                }).execute();
-            });
             // Event listener for actions on the menu table
             $('#' + datatable).on('click', '.delete', function(e) {
                 e.preventDefault();
