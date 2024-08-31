@@ -46,34 +46,42 @@
     <script>
         const datatable = 'role-table';
 
-        function handleCheckMenu(){
-            // Handle parent checkbox click to check/uncheck child checkboxes
-            $('.parent').on('click', function() {
+    function handleCheckMenu() {
+        // Handle parent checkbox click to check/uncheck child checkboxes
+        $('.parent').on('click', function() {
             const childs = $(this).closest('tr').find('.child');
             childs.prop('checked', this.checked);
-            });
+        });
 
-            // Handle child checkbox click to check/uncheck parent checkbox
-            $('.parent').each(function() {
+        // Handle child checkbox click to check/uncheck parent checkbox
+        $('.child').on('click', function() {
             const parentRow = $(this).closest('tr');
             const childs = parentRow.find('.child');
             const checked = parentRow.find('.child:checked');
             parentRow.find('.parent').prop('checked', childs.length === checked.length);
-            });
+        });
 
-            $('.child').on('click', function() {
+        // Ensure parent checkboxes are correctly initialized based on child checkboxes
+        $('.parent').each(function() {
             const parentRow = $(this).closest('tr');
             const childs = parentRow.find('.child');
             const checked = parentRow.find('.child:checked');
-            parentRow.find('.parent').prop('checked', childs.length === checked.length);
-            });
-        }
+            $(this).prop('checked', childs.length === checked.length);
+        });
+    }
 
     // Document ready function to initialize event listeners
     $(document).ready(function() {
         handleAction(datatable, function() {
-
             handleCheckMenu();
+
+            $('.search').on('keyup', function() {
+                const value = this.value.toLowerCase(); // Corrected toLowerCase spelling
+
+                $('#menu_permissions tr').show().filter(function() {
+                    return $(this).text().toLowerCase().indexOf(value) === -1; // Corrected toLowerCase spelling and usage
+                }).hide();
+            });
 
             // Handle change event on .copy-role select element
             $('.copy-role').on('change', function() {
@@ -82,7 +90,7 @@
                     handleAjax(`{{ url('configuration/access-role') }}/${roleId}/role`)
                     .onSuccess(function(res) {
                         $('#menu_permissions').html(res);
-                        handleCheckMenu();
+                        handleCheckMenu(); // Reinitialize event listeners after AJAX load
                     }, false)
                     .execute();
                 }
