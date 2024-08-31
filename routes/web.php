@@ -30,6 +30,8 @@ Route::middleware('auth')->group(function () {
 
         Route::resource('roles', RoleController::class);
         Route::resource('permissions', PermissionController::class);
+
+        Route::get('access-role/{role}/role', [AccessRoleController::class, 'getPermissionByRole']);
         Route::resource('access-role', AccessRoleController::class)
             ->except(['create', 'store', 'destroy'])
             ->parameters(['access-role' => 'role']);

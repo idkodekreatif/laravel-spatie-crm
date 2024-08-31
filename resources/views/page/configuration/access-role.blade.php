@@ -48,7 +48,17 @@
 
         // Document ready function to initialize event listeners
         $(document).ready(function() {
-            handleAction(datatable)
+            handleAction(datatable, function(){
+                $('.copy-role').on('change', function(){
+
+                    handleAjax(`{{ url('configuration/access-role') }}/${this.value}/role`)
+                    .onSuccess(function(res){
+
+                        $('#menu_permissions').html(res)
+                    }, false)
+                    .execute()
+                })
+            })
             handleDelete(datatable)
         });
 
