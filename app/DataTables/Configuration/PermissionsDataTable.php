@@ -2,7 +2,7 @@
 
 namespace App\DataTables\Configuration;
 
-use App\Models\Permission;
+use App\Models\Spatie\Permissions;
 use App\Traits\DataTableHelper;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
@@ -34,7 +34,7 @@ class PermissionsDataTable extends DataTable
     /**
      * Get the query source of dataTable.
      */
-    public function query(Permission $model): QueryBuilder
+    public function query(Permissions $model): QueryBuilder
     {
         return $model->newQuery();
     }
