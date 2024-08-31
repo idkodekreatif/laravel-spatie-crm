@@ -33,7 +33,6 @@ class AccessRoleController extends Controller
     {
         $menus = Menu::with('permissions', 'subMenus.permissions')->whereNull('main_menu_id')->get();
 
-        // dd($menus);
         return view('page.configuration.access-role-form', [
             'data' => $role,
             'action' => route('configuration.access-role.update', $role->id),
@@ -46,6 +45,8 @@ class AccessRoleController extends Controller
      */
     public function update(Request $request, Role $role)
     {
-        //
+        $role->syncPermissions($request->permissions);
+
+        return responseSuccess(true);
     }
 }
