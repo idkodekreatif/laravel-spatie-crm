@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Configuration\MenuController;
+use App\Http\Controllers\Configuration\PermissionController;
 use App\Http\Controllers\Configuration\RoleController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -27,6 +28,7 @@ Route::middleware('auth')->group(function () {
         Route::resource('menu', MenuController::class);
 
         Route::resource('roles', RoleController::class);
+        Route::resource('permissions', PermissionController::class);
     });
 });
 

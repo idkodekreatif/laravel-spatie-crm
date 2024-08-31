@@ -2,7 +2,7 @@
 
 namespace App\DataTables\Configuration;
 
-use App\Models\Role;
+use App\Models\Permission;
 use App\Traits\DataTableHelper;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
@@ -13,7 +13,7 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class RoleDataTable extends DataTable
+class PermissionsDataTable extends DataTable
 {
     use DataTableHelper;
     /**
@@ -34,7 +34,7 @@ class RoleDataTable extends DataTable
     /**
      * Get the query source of dataTable.
      */
-    public function query(Role $model): QueryBuilder
+    public function query(Permission $model): QueryBuilder
     {
         return $model->newQuery();
     }
@@ -45,7 +45,7 @@ class RoleDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-            ->setTableId('role-table')
+            ->setTableId('permissions-table')
             ->columns($this->getColumns())
             ->minifiedAjax()
             //->dom('Bfrtip')
@@ -58,7 +58,7 @@ class RoleDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::make('DT_RowIndex')->title('No')->searchable(false)->orderable(false),
+            Column::make('DT_RowIndex')->title('No')->orderable(false)->searchable(false),
             Column::make('name'),
             Column::make('guard_name'),
             Column::computed('action')
@@ -74,6 +74,6 @@ class RoleDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'Role_' . date('YmdHis');
+        return 'Permissions_' . date('YmdHis');
     }
 }

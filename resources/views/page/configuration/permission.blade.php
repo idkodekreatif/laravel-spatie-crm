@@ -14,16 +14,16 @@
                 <div class="card-header pb-0">
                     <div class="d-lg-flex justify-content-between">
                         <div>
-                            <h5 class="mb-0">All Roles</h5>
+                            <h5 class="mb-0">All Permissions</h5>
                             <p class="text-sm mb-0">
                                 A lightweight, extendable, dependency-free javascript HTML table plugin.
                             </p>
                         </div>
                         <div class="ms-auto mt-lg-0 mt-4">
-                            @can('create configuration/roles')
-                            <a href="{{ route('configuration.roles.create') }}"
+                            @can('create configuration/permissions')
+                            <a href="{{ route('configuration.permissions.create') }}"
                                 class="btn bg-gradient-primary btn-sm mb-0 action">+&nbsp; New
-                                Role</a>
+                                Permission</a>
                             @endcan
 
                             <button class="btn btn-outline-primary btn-sm export mb-0 mt-sm-0 mt-1" data-type="csv"
@@ -51,10 +51,11 @@
     {!! $dataTable->scripts() !!}
 
     <script>
-        const datatable = 'role-table';
+        const datatable = 'permissions-table';
 
         // Document ready function to initialize event listeners
         $(document).ready(function() {
+
             handleAction(datatable)
             handleDelete(datatable)
         });

@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Configuration;
 use App\DataTables\Configuration\RoleDataTable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Configuration\RoleRequest;
-use App\Models\Role;
+use App\Models\Spatie\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
@@ -39,7 +39,7 @@ class RoleController extends Controller
         $role = new Role($request->validated());
         $role->save();
 
-        return responseSuccess(true);
+        return responseSuccess();
     }
 
     /**
