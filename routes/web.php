@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Configuration\AccessRoleController;
 use App\Http\Controllers\Configuration\MenuController;
 use App\Http\Controllers\Configuration\PermissionController;
 use App\Http\Controllers\Configuration\RoleController;
@@ -29,6 +30,9 @@ Route::middleware('auth')->group(function () {
 
         Route::resource('roles', RoleController::class);
         Route::resource('permissions', PermissionController::class);
+        Route::resource('access-role', AccessRoleController::class)
+            ->except(['create', 'store', 'destroy'])
+            ->parameters(['access-role' => 'role']);
     });
 });
 

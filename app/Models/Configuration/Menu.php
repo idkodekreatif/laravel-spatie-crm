@@ -18,7 +18,7 @@ class Menu extends Model
 
     public function permissions()
     {
-        return $this->belongsToMany(Permissions::class, 'menu_permission', 'menu_id', 'permissions_id');
+        return $this->belongsToMany(Permissions::class, 'menu_permissions', 'menu_id', 'permissions_id');
     }
 
     public function scopeActive($query)
