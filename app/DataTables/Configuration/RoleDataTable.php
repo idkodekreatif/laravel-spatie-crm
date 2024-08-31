@@ -2,7 +2,7 @@
 
 namespace App\DataTables\Configuration;
 
-use App\Models\Role;
+use App\Models\Spatie\Role;
 use App\Traits\DataTableHelper;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;

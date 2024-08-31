@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Configuration;
 use App\DataTables\Configuration\PermissionsDataTable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Configuration\PermisssionRequest;
-use App\Models\Permission;
+use App\Models\Spatie\Permissions;
 // use App\Models\Spatie\Permissions;
 use Illuminate\Http\Request;
 
@@ -25,7 +25,7 @@ class PermissionController extends Controller
     public function create()
     {
         return view('page.configuration.permission-form', [
-            'data' => new Permission(),
+            'data' => new Permissions(),
             'action' => route('configuration.permissions.store'),
         ]);
     }
@@ -35,7 +35,7 @@ class PermissionController extends Controller
      */
     public function store(PermisssionRequest $request)
     {
-        $permission = new Permission($request->validated());
+        $permission = new Permissions($request->validated());
         $permission->save();
 
         return responseSuccess();
@@ -44,7 +44,7 @@ class PermissionController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Permission $permission)
+    public function show(Permissions $permission)
     {
         return view('page.configuration.permission-form', [
             'data' => $permission,
@@ -54,7 +54,7 @@ class PermissionController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Permission $permission)
+    public function edit(Permissions $permission)
     {
         return view('page.configuration.permission-form', [
             'data' => $permission,
@@ -65,7 +65,7 @@ class PermissionController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(PermisssionRequest $request, Permission $permission)
+    public function update(PermisssionRequest $request, Permissions $permission)
     {
         $permission->fill($request->validated());
         $permission->save();
@@ -76,7 +76,7 @@ class PermissionController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Permission $permission)
+    public function destroy(Permissions $permission)
     {
         $permission->delete();
 
