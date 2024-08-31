@@ -7,7 +7,7 @@ use App\Models\Spatie\Permissions;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Traits\HasMenuPermission;
-
+use Illuminate\Support\Facades\Cache;
 
 class MenuSeeder extends Seeder
 {
@@ -19,6 +19,8 @@ class MenuSeeder extends Seeder
      */
     public function run(): void
     {
+        Cache::forget('menus');
+
         /**
          * @var Menu $mm
          */
@@ -57,7 +59,15 @@ class MenuSeeder extends Seeder
             'category' => $mm->category,
         ]);
 
-        $this->attachMenuPermission($sm, ['create', 'read', 'update', 'delete', 'sort'], ['ceo']);
+        $this->attachMenuPermission($sm, ['create', 'read', 'update', 'delete'], ['ceo']);
+
+        $sm = $mm->subMenus()->create([
+            'name' => 'Access Role',
+            'url' => $mm->url . '/access-role',
+            'category' => $mm->category,
+        ]);
+
+        $this->attachMenuPermission($sm, ['read', 'update'], ['ceo']);
 
         $sm = $mm->subMenus()->create([
             'name' => 'User',
