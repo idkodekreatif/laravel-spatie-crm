@@ -5,9 +5,6 @@ $.ajaxSetup({
     },
 });
 
-// Log CSRF Token to the console for verification
-console.log("CSRF Token:", $('meta[name="csrf-token"]').attr("content"));
-
 // Loader
 showLoading();
 $(document).ready(function () {
@@ -30,6 +27,26 @@ $(document).ready(function () {
         });
     });
 });
+
+function handleAction(datatable, onShowAction, OnSuccessAction) {
+    // Event listener for actions on the menu table
+    $(".main-content").on("click", ".action", function (e) {
+        e.preventDefault();
+        const url = this.href;
+
+        handleAjax(url)
+            .onSuccess(function (res) {
+                onShowAction && onShowAction(res);
+                handleFormSubmit("#form_action")
+                    .setDataTable(datatable)
+                    .onSuccess(function (res) {
+                        OnSuccessAction && OnSuccessAction(res);
+                    })
+                    .init();
+            })
+            .execute();
+    });
+}
 
 function showLoading(show = true) {
     const preloader = $(".preloader");
@@ -78,6 +95,35 @@ function submitLoader(formId = "#form_action") {
     };
 }
 
+function handleDelete(datatable, onSuccessAction) {
+    // Event listener for actions on the menu table
+    $("#" + datatable).on("click", ".delete", function (e) {
+        e.preventDefault();
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                handleAjax(this.href, "delete")
+                    .onSuccess(function (res) {
+                        onSuccessAction && onSuccessAction(res);
+                        showToast(res.status, res.message);
+                        window.LaravelDataTables[datatable].ajax.reload(
+                            null,
+                            false
+                        );
+                    }, false)
+                    .execute();
+            }
+        });
+    });
+}
+
 function handleFormSubmit(selector) {
     let onSuccessCallback;
     let dataTableId;
@@ -109,7 +155,10 @@ function handleFormSubmit(selector) {
 
                     if (onSuccessCallback) onSuccessCallback(res);
                     if (dataTableId)
-                        window.LaravelDataTables[dataTableId].ajax.reload();
+                        window.LaravelDataTables[dataTableId].ajax.reload(
+                            null,
+                            false
+                        );
                 },
 
                 complete: function () {

@@ -5,7 +5,7 @@
     <ul class="dropdown-menu dropdown-menu-end me-sm-n4 px-2 py-3" aria-labelledby="dropdownCam" style="">
         @foreach ($actions as $key => $item)
         <li>
-            <a class="dropdown-item border-radius-md action" href="{{ $item }}">
+            <a class="dropdown-item border-radius-md {{ $key == 'Delete' ? 'delete' : 'action' }}" href="{{ $item }}">
                 {!! $key !!}
             </a>
         </li>

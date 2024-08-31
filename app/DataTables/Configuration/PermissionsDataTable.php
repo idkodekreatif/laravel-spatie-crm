@@ -2,7 +2,8 @@
 
 namespace App\DataTables\Configuration;
 
-use App\Models\Configuration\Menu;
+use App\Models\Permission;
+use App\Traits\DataTableHelper;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -12,8 +13,9 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class MenuDataTable extends DataTable
+class PermissionsDataTable extends DataTable
 {
+    use DataTableHelper;
     /**
      * Build the DataTable class.
      *
@@ -21,25 +23,18 @@ class MenuDataTable extends DataTable
      */
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
-        $user = request()->user();
-
         return (new EloquentDataTable($query))
-            ->addColumn('action', function ($row) use ($user) {
-                $actions = [];
-                if ($user->can('update configuration/menu')) {
-                    $actions['<i class="fas fa-user-edit text-secondary"></i> &nbsp; Edit'] = route('configuration.menu.edit', $row->id);
-                }
-
+            ->addColumn('action', function ($row) {
+                $actions = $this->basicActions($row);
                 return view('page.action.action', compact('actions'));
             })
-            ->setRowId('id')
             ->addIndexColumn();
     }
 
     /**
      * Get the query source of dataTable.
      */
-    public function query(Menu $model): QueryBuilder
+    public function query(Permission $model): QueryBuilder
     {
         return $model->newQuery();
     }
@@ -50,20 +45,11 @@ class MenuDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-            ->setTableId('menu-table')
+            ->setTableId('permissions-table')
             ->columns($this->getColumns())
             ->minifiedAjax()
             //->dom('Bfrtip')
-            ->orderBy(1)
-            ->selectStyleSingle()
-            ->buttons([
-                Button::make('excel'),
-                Button::make('csv'),
-                Button::make('pdf'),
-                Button::make('print'),
-                Button::make('reset'),
-                Button::make('reload')
-            ]);
+            ->orderBy(1);
     }
 
     /**
@@ -72,11 +58,9 @@ class MenuDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::make('DT_RowIndex')->title('No')->searchable(false)->orderable(false),
+            Column::make('DT_RowIndex')->title('No')->orderable(false)->searchable(false),
             Column::make('name'),
-            Column::make('orders'),
-            Column::make('url'),
-            Column::make('category'),
+            Column::make('guard_name'),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)
@@ -90,6 +74,6 @@ class MenuDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'Menu_' . date('YmdHis');
+        return 'Permissions_' . date('YmdHis');
     }
 }

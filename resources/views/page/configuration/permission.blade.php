@@ -10,26 +10,20 @@
 
     <div class="row">
         <div class="col-12">
-            <div class="card">
+            <div class="card main-content">
                 <div class="card-header pb-0">
                     <div class="d-lg-flex justify-content-between">
                         <div>
-                            <h5 class="mb-0">All Products</h5>
+                            <h5 class="mb-0">All Permissions</h5>
                             <p class="text-sm mb-0">
                                 A lightweight, extendable, dependency-free javascript HTML table plugin.
                             </p>
                         </div>
                         <div class="ms-auto mt-lg-0 mt-4">
-                            @can('create configuration/menu')
-                            <a href="{{ route('configuration.menu.create') }}"
+                            @can('create configuration/permissions')
+                            <a href="{{ route('configuration.permissions.create') }}"
                                 class="btn bg-gradient-primary btn-sm mb-0 action">+&nbsp; New
-                                Menu</a>
-                            @endcan
-
-                            @can('sort configuration/menu')
-                            <a href="{{ route('configuration.menu.sort') }}"
-                                class="btn bg-gradient-primary btn-sm mb-0 action sort">+&nbsp; Sort
-                                Menu</a>
+                                Permission</a>
                             @endcan
 
                             <button class="btn btn-outline-primary btn-sm export mb-0 mt-sm-0 mt-1" data-type="csv"
@@ -57,39 +51,15 @@
     {!! $dataTable->scripts() !!}
 
     <script>
-        const datatable = 'menu-table';
-
-        // Function to handle visibility of main menu based on selected level
-        function handleMenuChange() {
-            const wrapper = $('#main_menu_wrapper');
-            $('[name=level_menu]').on('change', function () {
-                if (this.value === 'sub_menu') {
-                    wrapper.removeClass('d-none');
-                } else {
-                    wrapper.addClass('d-none');
-                }
-            });
-        }
-
-        $('.sort').on('click', function(e){
-            e.preventDefault()
-
-            handleAjax(this.href, 'put')
-            .onSuccess(function(res){
-                window.location.reload()
-            }, false)
-            .execute()
-        })
+        const datatable = 'permissions-table';
 
         // Document ready function to initialize event listeners
-        $(document).ready(function () {
-            // Initialize menu change handling
-            handleMenuChange();
+        $(document).ready(function() {
 
-            handleAction(datatable, function(){
-                handleMenuChange()
-            })
+            handleAction(datatable)
+            handleDelete(datatable)
         });
+
     </script>
     @endpush
 </x-master-layout>

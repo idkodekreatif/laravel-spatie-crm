@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Configuration\Menu;
+use App\Repositories\MenuRepository;
 use Illuminate\Support\Facades\Cache;
 
 if (!function_exists('responseError')) {
@@ -35,19 +36,22 @@ if (!function_exists('responseSuccess')) {
     }
 }
 
+if (!function_exists('responseSuccessDelete')) {
+    function responseSuccessDelete()
+    {
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Delete data successfully',
+        ]);
+    }
+}
+
 
 if (!function_exists('menus')) {
     function menus()
     {
         if (!Cache::has('menus')) {
-            $menus = Menu::with(['subMenus' => function ($query) {
-                return $query->orderBy('orders');
-            }])
-                ->whereNull('main_menu_id')
-                ->active()
-                ->orderBy('orders')
-                ->get()
-                ->groupBy('category');
+            $menus = (new MenuRepository())->getMenus()->groupBy('category');
 
             Cache::forever('menus', $menus);
         } else {
@@ -55,5 +59,15 @@ if (!function_exists('menus')) {
         }
 
         return $menus;
+    }
+}
+
+if (!function_exists('user')) {
+    function user($id = null)
+    {
+        if ($id) {
+            return request()->user()->{$id};
+        }
+        return request()->user();
     }
 }

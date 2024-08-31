@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Configuration\MenuController;
+use App\Http\Controllers\Configuration\PermissionController;
+use App\Http\Controllers\Configuration\RoleController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -22,7 +24,11 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::group(['prefix' => 'configuration', 'as' => 'configuration.'], function () {
+        Route::put('menu/sort', [MenuController::class, 'sort'])->name('menu.sort');
         Route::resource('menu', MenuController::class);
+
+        Route::resource('roles', RoleController::class);
+        Route::resource('permissions', PermissionController::class);
     });
 });
 

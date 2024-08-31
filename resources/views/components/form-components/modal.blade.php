@@ -14,10 +14,12 @@
             <div class="modal-body">
                 {{ $slot }}
             </div>
+            @if ($action)
             <div class="modal-footer">
                 <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Close</button>
                 <button type="submit" class="btn bg-gradient-primary">Save changes</button>
             </div>
+            @endif
         </form>
     </div>
 </div>
