@@ -46,22 +46,50 @@
     <script>
         const datatable = 'role-table';
 
-        // Document ready function to initialize event listeners
-        $(document).ready(function() {
-            handleAction(datatable, function(){
-                $('.copy-role').on('change', function(){
+        function handleCheckMenu(){
+            // Handle parent checkbox click to check/uncheck child checkboxes
+            $('.parent').on('click', function() {
+            const childs = $(this).closest('tr').find('.child');
+            childs.prop('checked', this.checked);
+            });
 
-                    handleAjax(`{{ url('configuration/access-role') }}/${this.value}/role`)
-                    .onSuccess(function(res){
+            // Handle child checkbox click to check/uncheck parent checkbox
+            $('.parent').each(function() {
+            const parentRow = $(this).closest('tr');
+            const childs = parentRow.find('.child');
+            const checked = parentRow.find('.child:checked');
+            parentRow.find('.parent').prop('checked', childs.length === checked.length);
+            });
 
-                        $('#menu_permissions').html(res)
+            $('.child').on('click', function() {
+            const parentRow = $(this).closest('tr');
+            const childs = parentRow.find('.child');
+            const checked = parentRow.find('.child:checked');
+            parentRow.find('.parent').prop('checked', childs.length === checked.length);
+            });
+        }
+
+    // Document ready function to initialize event listeners
+    $(document).ready(function() {
+        handleAction(datatable, function() {
+
+            handleCheckMenu();
+
+            // Handle change event on .copy-role select element
+            $('.copy-role').on('change', function() {
+                const roleId = this.value;
+                if (roleId) {
+                    handleAjax(`{{ url('configuration/access-role') }}/${roleId}/role`)
+                    .onSuccess(function(res) {
+                        $('#menu_permissions').html(res);
+                        handleCheckMenu();
                     }, false)
-                    .execute()
-                })
-            })
-            handleDelete(datatable)
+                    .execute();
+                }
+            });
         });
-
+        handleDelete(datatable);
+    });
     </script>
     @endpush
 </x-master-layout>
