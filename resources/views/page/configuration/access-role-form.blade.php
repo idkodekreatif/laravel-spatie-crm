@@ -8,8 +8,8 @@
             <h5>Role: {{ $data->name }}</h5>
 
             <div class="mb-3 mt-3">
-                <x-form-components.select class="copy-role" label="Choice of roles" placeholder="--- Choice role ---"
-                    name="role" :options="$roles" />
+                <x-form-components.select class="copy-role" label="Copy of roles" placeholder="--- Copy role ---"
+                    :options="$roles" />
                 <x-form-components.input name="search" class="search" label="Cari menu" placeholder="Search..." />
             </div>
 

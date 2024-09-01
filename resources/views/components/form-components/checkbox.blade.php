@@ -1,7 +1,10 @@
-@props(['name', 'value' => '', 'label', 'justify' => 'form-check-inline', 'id' => $name, 'checked' => false])
+@props(['value' => '', 'label' => null, 'justify' => 'form-check-inline', 'id' => 'id_'.rand(), 'checked' => false])
 <div class="form-check {{ $justify }}">
-    <input {{ $attributes->merge(['class' => "form-check-input" ]) }} {{ $checked }} name="{{ $name }}"
-    type="checkbox" id="inlineCheckbox1{{ $id }}"
+    <input {{ $attributes->merge(['class' => "form-check-input" ]) }} {{ $checked }} type="checkbox"
+    id="{{ $id }}"
     value="{{ $value }}">
-    <label class="form-check-label" for="inlineCheckbox1{{ $id }}">{{ $label }}</label>
+
+    @if ($label)
+    <label class="form-check-label" for="{{ $id }}">{{ $label }}</label>
+    @endif
 </div>
