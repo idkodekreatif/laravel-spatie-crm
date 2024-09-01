@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\Configuration\AccessRoleController;
 use App\Http\Controllers\Configuration\AccessUser;
 use App\Http\Controllers\Configuration\AccessUserController;
@@ -35,13 +36,15 @@ Route::middleware('auth')->group(function () {
 
         Route::get('access-role/{role}/role', [AccessRoleController::class, 'getPermissionByRole']);
         Route::resource('access-role', AccessRoleController::class)
-            ->except(['create', 'store', 'destroy'])
+            ->except(['create', 'store', 'delete'])
             ->parameters(['access-role' => 'role']);
         Route::resource('access-user', AccessUserController::class)
-            ->except(['create', 'store', 'destroy'])
+            ->except(['create', 'store', 'delete'])
             ->parameters(['access-user' => 'user']);
         Route::get('access-user/{user}/user', [AccessUserController::class, 'getPermissionByUser']);
     });
+
+    Route::resource('articles', ArticleController::class);
 });
 
 require __DIR__ . '/auth.php';

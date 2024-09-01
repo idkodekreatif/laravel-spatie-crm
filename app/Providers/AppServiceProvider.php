@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Article;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Facades\Gate;
@@ -28,8 +29,13 @@ class AppServiceProvider extends ServiceProvider
         //     return $user->hasRole('ceo') ?: null;
         // });
 
+        Gate::before(function (User $user, $ability) {
+            return $user->hasRole('administrator') ? true : null;
+        });
+
         Relation::enforceMorphMap([
             'users' => User::class,
+            'articles' => Article::class,
         ]);
     }
 }

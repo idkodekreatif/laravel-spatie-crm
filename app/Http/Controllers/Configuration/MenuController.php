@@ -26,7 +26,6 @@ class MenuController extends Controller
      */
     public function index(MenuDataTable $menuDataTable)
     {
-        Gate::authorize('read configuration/menu');
         return $menuDataTable->render('page.configuration.menu');
     }
 
@@ -56,8 +55,6 @@ class MenuController extends Controller
      */
     public function create(Menu $menu)
     {
-        Gate::authorize('create configuration/menu');
-
         return view('page.configuration.menu-form', [
             'action' => route('configuration.menu.store'),
             'data' => $menu,
@@ -116,8 +113,6 @@ class MenuController extends Controller
      */
     public function edit(Menu $menu)
     {
-        Gate::authorize('update configuration/menu');
-
         return view('page.configuration.menu-form', [
             'action' => route('configuration.menu.update', $menu->id),
             'data' => $menu,
@@ -130,8 +125,6 @@ class MenuController extends Controller
      */
     public function update(MenuRequest $request, Menu $menu)
     {
-        Gate::authorize('update configuration/menu');
-
         $this->fillData($request, $menu);
         if ($request->level_menu == 'main_menu') {
             $menu->main_menu_id = null;

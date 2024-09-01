@@ -11,6 +11,9 @@ trait HasPermission
         'index' => 'read',
         'edit' => 'update',
         'update' => 'update',
+        'create' => 'create',
+        'store' => 'create',
+        'destroy' => 'delete',
     ];
 
     public function callAction($method, $parameters)
@@ -24,6 +27,15 @@ trait HasPermission
 
         $urlMenu = urlMenu();
         $staticPath = substr($staticPath, 1);
+
+        if (!in_array($staticPath, $urlMenu)) {
+            foreach (array_reverse(explode('/', $staticPath)) as $path) {
+                $staticPath = str_replace("/$path", "", $staticPath);
+                if (in_array($staticPath, $urlMenu)) {
+                    break;
+                }
+            }
+        }
 
         if (in_array($staticPath, $urlMenu)) {
             $this->authorize("$action $staticPath");
