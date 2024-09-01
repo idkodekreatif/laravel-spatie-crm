@@ -48,6 +48,7 @@ class PermissionController extends Controller
     {
         return view('page.configuration.permission-form', [
             'data' => $permission,
+            'action' => null,
         ]);
     }
 

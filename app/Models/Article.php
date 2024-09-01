@@ -10,6 +10,7 @@ class Article extends Model
 {
     use HasFactory;
 
+    protected $guarded = ['id'];
     public function tags()
     {
         return $this->morphToMany(Tag::class, 'taggable');

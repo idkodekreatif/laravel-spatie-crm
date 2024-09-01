@@ -14,9 +14,9 @@ class ArticleSeeder extends Seeder
      */
     public function run(): void
     {
-        Article::create(['title' => $title = fake()->sentence(4), 'desc' => fake()->sentence(10), 'slug' => Str::slug($title)])->tags()->attach(rand(1, 3));
-        Article::create(['title' => $title = fake()->sentence(4), 'desc' => fake()->sentence(10), 'slug' => Str::slug($title)])->tags()->attach(rand(1, 3));
-        Article::create(['title' => $title = fake()->sentence(4), 'desc' => fake()->sentence(10), 'slug' => Str::slug($title)])->tags()->attach(rand(1, 3));
-        Article::create(['title' => $title = fake()->sentence(4), 'desc' => fake()->sentence(10), 'slug' => Str::slug($title)])->tags()->attach(rand(1, 3));
+        Article::create(['title' => $title = fake()->sentence(4), 'description' => fake()->sentence(10), 'slug' => Str::slug($title)])->tags()->attach(rand(1, 3));
+        Article::create(['title' => $title = fake()->sentence(4), 'description' => fake()->sentence(10), 'slug' => Str::slug($title)])->tags()->attach(rand(1, 3));
+        Article::create(['title' => $title = fake()->sentence(4), 'description' => fake()->sentence(10), 'slug' => Str::slug($title)])->tags()->attach(rand(1, 3));
+        Article::create(['title' => $title = fake()->sentence(4), 'description' => fake()->sentence(10), 'slug' => Str::slug($title)])->tags()->attach(rand(1, 3));
     }
 }

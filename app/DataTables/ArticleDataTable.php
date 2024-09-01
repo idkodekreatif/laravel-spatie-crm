@@ -60,7 +60,7 @@ class ArticleDataTable extends DataTable
         return [
             Column::make('DT_RowIndex')->title('No')->orderable(false)->searchable(false),
             Column::make('title'),
-            Column::make('desc'),
+            Column::make('description'),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)

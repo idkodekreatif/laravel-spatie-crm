@@ -30,7 +30,14 @@ class AccessRoleController extends Controller
      */
     public function show(Role $role)
     {
-        //
+        $roles = Role::where('id', '!=', $role->id)->get()->pluck('id', 'name');
+
+        return view('page.configuration.access-role-form', [
+            'data' => $role,
+            'action' => null,
+            'menus' => $this->menuRepository->getMainMenuWithPermissions(),
+            'roles' => $roles,
+        ]);
     }
 
     /**

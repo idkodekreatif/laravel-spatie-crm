@@ -28,7 +28,12 @@ class AccessUserController extends Controller
      */
     public function show(User $user)
     {
-        //
+        return view('page.configuration.access-user-form', [
+            'data' => $user,
+            'users' => User::where('id', '!=', $user->id)->get()->pluck('id', 'name'),
+            'action' => null,
+            'menus' => $this->menuRepository->getMainMenuWithPermissions(),
+        ]);
     }
 
     /**
