@@ -28,6 +28,10 @@ class AppServiceProvider extends ServiceProvider
         //     return $user->hasRole('ceo') ?: null;
         // });
 
+        Gate::before(function (User $user, $ability) {
+            return $user->hasRole('administrator') ? true : null;
+        });
+
         Relation::enforceMorphMap([
             'users' => User::class,
         ]);
