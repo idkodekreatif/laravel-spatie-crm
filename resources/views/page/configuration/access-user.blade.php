@@ -84,10 +84,10 @@
             });
 
             // Handle change event on .copy-role select element
-            $('.copy-role').on('change', function() {
+            $('.copy').on('change', function() {
                 const roleId = this.value;
                 if (roleId) {
-                    handleAjax(`{{ url('configuration/access-role') }}/${roleId}/role`)
+                    handleAjax(`{{ url('configuration/access-user') }}/${roleId}/user`)
                     .onSuccess(function(res) {
                         $('#menu_permissions').html(res);
                         handleCheckMenu(); // Reinitialize event listeners after AJAX load

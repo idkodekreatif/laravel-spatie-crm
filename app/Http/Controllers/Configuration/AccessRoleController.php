@@ -7,9 +7,16 @@ use App\Models\Spatie\Role;
 use Illuminate\Http\Request;
 use App\DataTables\Configuration\RoleDataTable;
 use App\Models\Configuration\Menu;
+use App\Repositories\MenuRepository;
 
 class AccessRoleController extends Controller
 {
+
+    public function __construct(protected MenuRepository $menuRepository)
+    {
+        $this->menuRepository = $menuRepository;
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -37,7 +44,7 @@ class AccessRoleController extends Controller
         return view('page.configuration.access-role-form', [
             'data' => $role,
             'action' => route('configuration.access-role.update', $role->id),
-            'menus' => $this->getMenus(),
+            'menus' => $this->menuRepository->getMainMenuWithPermissions(),
             'roles' => $roles,
         ]);
     }
@@ -52,16 +59,11 @@ class AccessRoleController extends Controller
         return responseSuccess(true);
     }
 
-    private function getMenus()
-    {
-        return Menu::with('permissions', 'subMenus.permissions')->whereNull('main_menu_id')->get();
-    }
-
     public function getPermissionByRole(Role $role)
     {
         return view('page.configuration.access-role-item', [
             'data' => $role,
-            'menus' => $this->getMenus(),
+            'menus' => $this->menuRepository->getMainMenuWithPermissions(),
         ]);
     }
 }

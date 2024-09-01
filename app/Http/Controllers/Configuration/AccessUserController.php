@@ -5,32 +5,22 @@ namespace App\Http\Controllers\Configuration;
 use App\DataTables\Configuration\UserDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Repositories\MenuRepository;
 use Illuminate\Http\Request;
 
 class AccessUserController extends Controller
 {
+    public function __construct(protected MenuRepository $menuRepository)
+    {
+        $this->menuRepository = $menuRepository;
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index(UserDataTable $userDataTable)
     {
         return $userDataTable->render('page.configuration.access-user');
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
     }
 
     /**
@@ -46,7 +36,12 @@ class AccessUserController extends Controller
      */
     public function edit(User $user)
     {
-        //
+        return view('page.configuration.access-user-form', [
+            'data' => $user,
+            'users' => User::where('id', '!=', $user->id)->get()->pluck('id', 'name'),
+            'action' => route('configuration.access-user.update', $user->id),
+            'menus' => $this->menuRepository->getMainMenuWithPermissions(),
+        ]);
     }
 
     /**
@@ -54,14 +49,16 @@ class AccessUserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        //
+        $user->syncPermissions($request->permissions);
+
+        return responseSuccess(true);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(User $user)
+    public function getPermissionByUser(User $user)
     {
-        //
+        return view('page.configuration.access-user-item', [
+            'data' => $user,
+            'menus' => $this->menuRepository->getMainMenuWithPermissions(),
+        ]);
     }
 }

@@ -6,6 +6,11 @@ use App\Models\Configuration\Menu;
 
 class MenuRepository
 {
+    public function getMainMenuWithPermissions()
+    {
+        return Menu::with('permissions', 'subMenus.permissions')->whereNull('main_menu_id')->get();
+    }
+
     // Implement your menu repository methods here
     public function getMainMenus()
     {

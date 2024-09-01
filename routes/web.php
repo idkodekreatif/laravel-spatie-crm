@@ -40,6 +40,7 @@ Route::middleware('auth')->group(function () {
         Route::resource('access-user', AccessUserController::class)
             ->except(['create', 'store', 'destroy'])
             ->parameters(['access-user' => 'user']);
+        Route::get('access-user/{user}/user', [AccessUserController::class, 'getPermissionByUser']);
     });
 });
 
