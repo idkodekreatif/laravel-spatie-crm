@@ -5,11 +5,11 @@
 
     <div class="row">
         <div class="col-12">
-            <h5>Role: {{ $data->name }}</h5>
+            <h5>User: {{ $data->name }}</h5>
 
             <div class="mb-3 mt-3">
-                <x-form-components.select class="copy-role" label="Copy of roles" placeholder="--- Copy role ---"
-                    :options="$roles" />
+                <x-form-components.select class="copy" label="Copy of user" placeholder="--- Copy user ---"
+                    :options="$users" />
                 <x-form-components.input name="search" class="search" label="Cari menu" placeholder="Search..." />
             </div>
 
@@ -21,7 +21,7 @@
                     </thead>
 
                     <tbody id="menu_permissions">
-                        @include('page.configuration.access-role-item')
+                        @include('page.configuration.access-user-item')
                     </tbody>
 
                     <tfoot>

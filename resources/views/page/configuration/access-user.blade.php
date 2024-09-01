@@ -14,7 +14,7 @@
                 <div class="card-header pb-0">
                     <div class="d-lg-flex justify-content-between">
                         <div>
-                            <h5 class="mb-0">Access Roles</h5>
+                            <h5 class="mb-0">Access User</h5>
                             <p class="text-sm mb-0">
                                 A lightweight, extendable, dependency-free javascript HTML table plugin.
                             </p>
@@ -44,7 +44,7 @@
     {!! $dataTable->scripts() !!}
 
     <script>
-        const datatable = 'role-table';
+        const datatable = 'user-table';
 
     function handleCheckMenu() {
         // Handle parent checkbox click to check/uncheck child checkboxes
@@ -84,10 +84,10 @@
             });
 
             // Handle change event on .copy-role select element
-            $('.copy-role').on('change', function() {
+            $('.copy').on('change', function() {
                 const roleId = this.value;
                 if (roleId) {
-                    handleAjax(`{{ url('configuration/access-role') }}/${roleId}/role`)
+                    handleAjax(`{{ url('configuration/access-user') }}/${roleId}/user`)
                     .onSuccess(function(res) {
                         $('#menu_permissions').html(res);
                         handleCheckMenu(); // Reinitialize event listeners after AJAX load
