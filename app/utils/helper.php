@@ -62,6 +62,30 @@ if (!function_exists('menus')) {
     }
 }
 
+if (!function_exists('urlMenu')) {
+    function urlMenu()
+    {
+        if (!Cache::has('urlMenu')) {
+
+            $menus = menus()->flatMap(fn($item) => $item);
+
+            $url = [];
+            foreach ($menus as $mm) {
+                $url[] = $mm->url;
+                foreach ($mm->subMenus as $sm) {
+                    $url[] = $sm->url;
+                }
+            }
+
+            Cache::forever('urlMenu', $url);
+        } else {
+            $url = Cache::get('urlMenu');
+        }
+
+        return $url;
+    }
+}
+
 if (!function_exists('user')) {
     function user($id = null)
     {
