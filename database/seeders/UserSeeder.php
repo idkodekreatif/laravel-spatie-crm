@@ -14,7 +14,7 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        $users = ['writer', 'editor', 'administrator', 'ceo', 'user'];
+        $users = ['writer', 'publisher', 'administrator', 'ceo', 'user'];
 
         $default = [
             'email_verified_at' => now(),

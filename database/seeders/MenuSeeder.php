@@ -117,6 +117,6 @@ class MenuSeeder extends Seeder
             ]
         );
 
-        $this->attachMenuPermission($mm, ['read'], ['ceo']);
+        $this->attachMenuPermission($mm, null, ['ceo', 'publisher', 'writer']);
     }
 }

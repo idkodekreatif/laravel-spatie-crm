@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Article;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Facades\Gate;
@@ -34,6 +35,7 @@ class AppServiceProvider extends ServiceProvider
 
         Relation::enforceMorphMap([
             'users' => User::class,
+            'articles' => Article::class,
         ]);
     }
 }
