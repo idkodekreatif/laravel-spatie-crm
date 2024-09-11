@@ -86,6 +86,14 @@ if (!function_exists('urlMenu')) {
     }
 }
 
+
+if (!function_exists('notifications')) {
+    function notifications()
+    {
+        return user()->notifications;
+    }
+}
+
 if (!function_exists('user')) {
     function user($id = null)
     {

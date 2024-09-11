@@ -7,6 +7,7 @@ use App\Http\Controllers\Configuration\AccessUserController;
 use App\Http\Controllers\Configuration\MenuController;
 use App\Http\Controllers\Configuration\PermissionController;
 use App\Http\Controllers\Configuration\RoleController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -45,6 +46,7 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::resource('articles', ArticleController::class);
+    Route::get('notifications/{notification}', NotificationController::class)->name('notifications');
 });
 
 require __DIR__ . '/auth.php';
