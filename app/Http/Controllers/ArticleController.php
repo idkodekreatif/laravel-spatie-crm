@@ -6,8 +6,11 @@ use App\DataTables\ArticleDataTable;
 use App\Http\Requests\ArticleRequest;
 use App\Models\Article;
 use App\Models\MasterData\Tag;
+use App\Models\User;
+use App\Notifications\ArticleNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
 
 class ArticleController extends Controller
 {
@@ -43,6 +46,13 @@ class ArticleController extends Controller
             $article->save();
 
             $article->tags()->sync($request->tags);
+
+            $target = User::role('publisher')->get();
+
+            Notification::send($target, new ArticleNotification($article, [
+                'title' => 'Article',
+                'body' => 'Ada Article Baru, dengan judul: ' . $article->title
+            ]));
 
             DB::commit();
         } catch (\Throwable $th) {

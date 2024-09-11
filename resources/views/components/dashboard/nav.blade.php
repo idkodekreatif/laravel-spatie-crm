@@ -77,7 +77,7 @@
                 <li class="nav-item dropdown pe-2 d-flex align-items-center">
                     @php
                     $notifications = notifications();
-                    dd($notifications);
+                    // dd($notifications);
                     @endphp
 
                     <a href="javascript:;" class="nav-link text-body p-0" id="dropdownMenuButton"
